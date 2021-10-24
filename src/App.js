@@ -3,8 +3,29 @@ import './App.css';
 import { Form } from 'react-bootstrap/Button';
 import { useState } from 'react';
 
-function App() {
-  let [capacityLimit, setCapacityLimit] = useState(false)
+
+const CapacityForm = () => (
+  <form>
+    <div className="form-group">
+      <label htmlFor="capacityLimit"> Capacity Limit </label><br />
+      <textarea className="form-control" id="eventDescription" rows="3"></textarea>
+    </div>
+    <div className="form-check form-switch">
+      <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault"/>
+      <label className="form-check-label" htmlFor="waitlist">Waitlist?</label>
+    </div>
+
+  </form>
+)
+
+const App = () => {
+  const [capacityLimit, setCapacityLimit] = useState(false);
+  // bug
+  let changeCapacityLimit = (e) => {
+    console.log(e.target.value)
+    console.log(e.target.checked)   
+    setCapacityLimit(!capacityLimit)
+  }
 
   return (
     <>
@@ -13,27 +34,32 @@ function App() {
       </div>
 
       <form>
-        <div class="form-group">
-          <label for="exampleInputEmail1"> Event Name</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+        <div className="form-group">
+          <label htmlFor="exampleInputEmail1"> Event Name</label>
+          <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
         </div>
         <br />
-        <div class="form-group">
-          <label for="eventDescription"> Event Description </label><br />
-          <textarea class="form-control" id="eventDescription" rows="3"></textarea>
+        <div className="form-group">
+          <label htmlFor="eventDescription"> Event Description </label><br />
+          <textarea className="form-control" id="eventDescription" rows="3"></textarea>
         </div>
         <br />
-        <div class="form-check">
-          <label for="exampleInputPassword1"> Set Capacity Limit? </label>
-          <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="capacityYes" />
-          <label class="form-check-label" for="exampleRadios1">
+        <div className="form-check">
+          <label htmlFor="exampleInputPassword1"> Set Capacity Limit? </label>
+          <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="capacityYes" onChange={changeCapacityLimit}/>
+          <label className="form-check-label" htmlFor="exampleRadios1">
             Yes
           </label>
-          <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="capacityNo" checked />
-          <label class="form-check-label" for="exampleRadios2">
+          <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="capacityNo" checked />
+          <label className="form-check-label" htmlFor="exampleRadios2">
             No
           </label>
         </div>
+
+        {
+          capacityLimit ? <CapacityForm/> : <br/>
+        }
+
 
         <br />
         <div class="form-check">
