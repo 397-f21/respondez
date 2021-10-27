@@ -61,19 +61,22 @@ export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMa
       </div>
 
       <div className="form-check">
+        <input type="checkbox" className="form-check-input" id="askEmail" />
+        <label className="form-check-label" htmlFor="askEmail">Ask for email</label>
+      </div>
+      <div className="form-check">
         <input type="checkbox" className="form-check-input" id="askPhoneNum" />
-        <label className="form-check-label" htmlFor="askPhoneNum">Ask for Phone Number</label>
-      </div>
-      <div className="form-check">
-        <input type="checkbox" className="form-check-input" id="askName" />
-        <label className="form-check-label" htmlFor="askName">Ask for name</label>
-      </div>
-      <div className="form-check">
-        <input type="checkbox" className="form-check-input" id="askRSVP" />
-        <label className="form-check-label" htmlFor="askRSVP">Ask for RSVP</label>
+        <label className="form-check-label" htmlFor="askPhoneNum">Ask for phone number</label>
       </div>
       <br />
-      <button type="submit" className="btn btn-primary">Submit</button>
+      <button type="submit" className="btn btn-primary">Make Form!</button>
     </form>
   </>
 )
+
+/*
+<div className="form-check">
+        <input type="checkbox" className="form-check-input" id="askRSVP" />
+        <label className="form-check-label" htmlFor="askRSVP">Ask for RSVP</label>
+      </div>
+*/
