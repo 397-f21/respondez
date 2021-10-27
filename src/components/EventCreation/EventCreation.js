@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 // TODO: find the bug and fix it. maybe even set up a test.......
 let changeCapacityLimit = (e, setCapacityLimit) => setCapacityLimit(e.target.checked);
 
@@ -35,10 +36,24 @@ export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit }) => (
       </div>
       <br />
       <div className="form-check form-switch">
-        <input className="form-check-input" type="checkbox" id="isThereCapacity" onChange={(e) => changeCapacityLimit(e, setCapacityLimit)} />
+        <input className="form-check-input" type="checkbox" id="isThereCapacity"
+          data-target="#capacityCollapse" data-toggle="collapse" />
         <label className="form-check-label" htmlFor="isThereCapacity">Set Capacity Limit?</label>
       </div>
-      <CapacityForm display={capacityLimit} />
+
+      <div id="capacityCollapse" className="collapse">
+        {/* <CapacityForm display={capacityLimit} /> */}
+        <form>
+          <div className="form-group">
+            <label htmlFor="capacityLimit"> Capacity Limit </label>
+            <input className="form-control" id="capacityLimit" type="number" />
+          </div>
+          <div className="form-check form-switch">
+            <input className="form-check-input" type="checkbox" id="isThereWaitlist" />
+            <label className="form-check-label" htmlFor="isThereWaitlist">Waitlist?</label>
+          </div>
+        </form>
+      </div>
 
       <br />
       <div className="form-check">
