@@ -12,11 +12,10 @@ const App = () => {
 
   return (
     <>
-      <div>
+      <div id="main">
         <h1> RespondEZ</h1>
+        <DisplayEventCreator capacityLimit={capacityLimit} setCapacityLimit={setCapacityLimit} />
       </div>
-
-      <DisplayEventCreator capacityLimit={capacityLimit} setCapacityLimit={setCapacityLimit} />
     </>
   );
 }
