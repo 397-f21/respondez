@@ -20,8 +20,8 @@ export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit }) => (
   <>
     <form>
       <div className="form-group">
-        <label htmlFor="eventNameInput"> Event Name</label>
-        <input type="name" className="form-control" id="eventNameInput" aria-describedby="eventName" placeholder="Enter event name" />
+        <label htmlFor="eventName"> Event Name</label>
+        <input type="name" className="form-control" id="eventName" placeholder="Enter event name" />
       </div>
       <br />
       <div className="form-group">
@@ -37,13 +37,18 @@ export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit }) => (
 
       <br />
       <div className="form-check">
-        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-        <label className="form-check-label" for="exampleCheck1"> Ask for Phone Number</label>
+        <input type="checkbox" className="form-check-input" id="askPhoneNum" />
+        <label className="form-check-label" for="askPhoneNum">Ask for Phone Number</label>
       </div>
       <div className="form-check">
         <input type="checkbox" className="form-check-input" id="askName" />
-        <label className="form-check-label" for="askName">Ask for name?</label>
+        <label className="form-check-label" for="askName">Ask for name</label>
       </div>
+      <div className="form-check">
+        <input type="checkbox" className="form-check-input" id="askRSVP" />
+        <label className="form-check-label" for="askRSVP">Ask for RSVP</label>
+      </div>
+      <br />
       <button type="submit" className="btn btn-primary">Submit</button>
     </form>
   </>
