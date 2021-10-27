@@ -13,11 +13,14 @@ const App = () => {
   const [formMaker, setFormMaker] = useState(true);
   const [formContent, setFormContent] = useState(null);
 
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const params = Object.fromEntries(urlSearchParams.entries());
+
   return (
     <>
       <div id="main">
         <h1> RespondEZ</h1>
-        {formMaker 
+        {formMaker  // params.id === null 
         ? <DisplayEventCreator capacityLimit={capacityLimit} setCapacityLimit={setCapacityLimit} setFormMaker={setFormMaker} setFormContent={setFormContent}/>
         : <FormDisplay formContent={formContent}/>}
       </div>
