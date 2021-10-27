@@ -21,7 +21,7 @@ const CapacityForm = () => (
 const submitForm = (event, setFormMaker, setFormContent) => {
   event.preventDefault();
   console.log(event.target.elements);
-  alert("yo!");
+  alert("Form created successfully!");
   setFormContent(event.target.elements)
   setFormMaker(false);
 }
