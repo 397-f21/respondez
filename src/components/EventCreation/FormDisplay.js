@@ -1,4 +1,7 @@
 
-export const FormDisplay = () => (
-    <h1>This is the form!</h1>
+export const FormDisplay = ({ formContent }) => (
+    <>
+        <h1>{formContent.eventName.value}</h1>
+        
+    </>
 )
