@@ -19,7 +19,7 @@ const CapacityForm = () => (
   </>
 )
 
-export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit }) => (
+export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMaker }) => (
   <>
     <form>
       <form className="form-inline mb-4">
@@ -64,7 +64,7 @@ export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit }) => (
         <label className="form-check-label" for="askRSVP">Ask for RSVP</label>
       </div>
       <br />
-      <button type="submit" className="btn btn-primary">Submit</button>
+      <button type="submit" className="btn btn-primary" onClick={() => setFormMaker(false)}>Submit</button>
     </form>
   </>
 )
