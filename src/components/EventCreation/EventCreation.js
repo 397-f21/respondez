@@ -24,6 +24,11 @@ export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit }) => (
         <input type="name" className="form-control" id="eventName" placeholder="Enter event name" />
       </div>
       <br />
+      <div id="eventDate" className="md-form md-outline input-with-post-icon datepicker">
+        <label for="eventDate">Event Date</label>
+        <input type="date" id="eventDateInput" class="form-control" />
+      </div>
+      <br />
       <div className="form-group">
         <label htmlFor="eventDescription"> Event Description </label><br />
         <textarea className="form-control" id="eventDescription" rows="3"></textarea>
