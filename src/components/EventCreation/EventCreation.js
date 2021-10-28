@@ -18,12 +18,25 @@ const CapacityForm = () => (
   </>
 )
 
+
+const validateTime = (date) => {
+  var inputDate = new Date(date);
+  var todaydate = new Date();
+
+  return inputDate.getTime() >= todaydate.getTime()
+}
+
 const submitForm = (event, setFormMaker, setFormContent) => {
   event.preventDefault();
   console.log(event.target.elements);
-  alert("Form created successfully!");
-  setFormContent(event.target.elements)
-  setFormMaker(false);
+  if (! validateTime(event.target.elements.eventDateInput.value)) {
+    alert("Invalid date: Event must take place today or later.");
+  }
+  else {
+    alert("Form created successfully!");
+    setFormContent(event.target.elements);
+    setFormMaker(false);
+  }
 }
 
 export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMaker, setFormContent }) => (
