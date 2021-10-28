@@ -18,19 +18,18 @@ const CapacityForm = () => (
   </>
 )
 
-
 const validateTime = (date) => {
   var inputDate = new Date(date);
   var todaydate = new Date();
 
-  return inputDate.getTime() >= todaydate.getTime()
+  return inputDate.getTime() >= todaydate.getTime();
 }
 
 const submitForm = (event, setFormMaker, setFormContent) => {
   event.preventDefault();
   console.log(event.target.elements);
   if (! validateTime(event.target.elements.eventDateInput.value)) {
-    alert("Invalid date: Event must take place today or later.");
+    alert("Invalid Event Date: Event must take place today or later.");
   }
   else {
     alert("Form created successfully!");
@@ -41,26 +40,29 @@ const submitForm = (event, setFormMaker, setFormContent) => {
 
 export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMaker, setFormContent }) => (
   <>
-    <form onSubmit={(event) => {submitForm(event, setFormMaker, setFormContent); }}>
+    <form class="needs-validation" novalidate onSubmit={(event) => {submitForm(event, setFormMaker, setFormContent); }}>
 
       <div className="form-inline mb-4">
         <div className="form-group">
           <label htmlFor="eventName" className="me-3"> Event Name</label>
-          <input type="name" className="form-control" id="eventName" placeholder="Enter event name" />
+          <input type="name" className="form-control" id="eventName" placeholder="Enter event name" required/>
+          <div class="invalid-feedback">
+          Please choose a username.
+        </div>
         </div>
       </div>
 
       <div className="form-inline">
         <div id="eventDate" className="form-group input-with-post-icon datepicker">
           <label htmlFor="eventDate" className="me-4">Event Date</label>
-          <input type="date" id="eventDateInput" className="form-control" />
+          <input type="date" id="eventDateInput" className="form-control" required/>
         </div>
       </div>
 
       <br />
       <div className="form-group">
         <label htmlFor="eventDescription"> Event Description </label><br />
-        <textarea className="form-control" id="eventDescription" rows="3" style={{width : '66%'}}></textarea>
+        <textarea className="form-control" id="eventDescription" rows="3" style={{width : '66%'}} required></textarea>
       </div>
       <br />
       <div className="form-check form-switch mb-4">
