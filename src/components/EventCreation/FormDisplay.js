@@ -1,7 +1,7 @@
 export const FormDisplay = ({ formContent }) => (
 
   <form >
-    <h2> {formConntent.eventName.value}</h2>
+    <h2> {formContent.eventName.value}</h2>
     <p> <b>When?</b> {formContent.eventDateInput.value}</p>
     <p>{formContent.eventDescription.value}</p>
     <p> {formContent.isThereCapacity.checked ? `Event Capacity: ${formContent.capacityLimit.value}` : ``} </p>

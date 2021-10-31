@@ -27,22 +27,37 @@ const validateTime = (date) => {
   return inputDate.getTime() >= todaydate.getTime();
 }
 
-const submitForm = (event, setFormMaker, setFormContent) => {
+const createForm = (event, setFormMaker, setFormContent) => {
   event.preventDefault();
-  console.log(event.target.elements);
-  if (!validateTime(event.target.elements.eventDateInput.value)) {
+  const elements = event.target.elements;
+
+  console.log(elements);
+  if (!validateTime(elements.eventDateInput.value)) {
     alert("Invalid Event Date: Event must take place today or later.");
   }
+
   else {
     alert("Form created successfully!");
-    setFormContent(event.target.elements);
+    setFormContent(elements);
     setFormMaker(false);
   }
+
+  // fill in all relevant info for creating the form.
+  const formJSON = {
+    "eventName": elements.eventName.value,
+    "date": elements.eventDateInput.value,
+    "description": elements.eventDescription.value,
+    "isCapacityLimit": elements.isThereCapacity.value ? parseInt(elements.capacityLimit.value) : null,
+    "needsEmail": elements.askEmail.checked,
+    "needsPhone": elements.askPhoneNum.checked
+  }
+
+  console.log(JSON.stringify(formJSON));
 }
 
 export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMaker, setFormContent }) => (
   <>
-    <form className="needs-validation" noValidate onSubmit={(event) => { submitForm(event, setFormMaker, setFormContent); }}>
+    <form className="needs-validation" noValidate onSubmit={(event) => { createForm(event, setFormMaker, setFormContent); }}>
 
       <div className="form-inline mb-4">
         <div className="form-group">
