@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
  it('render button on home', () => {
     const { getByTestId } = render( 
     <BrowserRouter>
-        <Home/>
+        <Home/> 
     </BrowserRouter>
     );
     const button = getByTestId("createFormButton");

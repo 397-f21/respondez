@@ -64,7 +64,7 @@ export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMa
       <br />
       <div className="form-group">
         <label htmlFor="eventDescription"> Event Description </label><br />
-        <textarea className="form-control" id="eventDescription" rows="3" style={{ width: '66%' }} required></textarea>
+        <textarea className="form-control" id="eventDescription" data-testid="descriptionTest" rows="3" style={{ width: '66%' }} required></textarea>
       </div>
       <br />
       <div className="form-check form-switch mb-4">
