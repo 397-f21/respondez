@@ -1,4 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { NavLink } from 'react-router-dom'
+
 // TODO: find the bug and fix it. maybe even set up a test.......
 let changeCapacityLimit = (e, setCapacityLimit) => setCapacityLimit(e.target.checked);
 
@@ -28,7 +30,7 @@ const validateTime = (date) => {
 const submitForm = (event, setFormMaker, setFormContent) => {
   event.preventDefault();
   console.log(event.target.elements);
-  if (! validateTime(event.target.elements.eventDateInput.value)) {
+  if (!validateTime(event.target.elements.eventDateInput.value)) {
     alert("Invalid Event Date: Event must take place today or later.");
   }
   else {
@@ -40,29 +42,29 @@ const submitForm = (event, setFormMaker, setFormContent) => {
 
 export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMaker, setFormContent }) => (
   <>
-    <form class="needs-validation" novalidate onSubmit={(event) => {submitForm(event, setFormMaker, setFormContent); }}>
+    <form class="needs-validation" novalidate onSubmit={(event) => { submitForm(event, setFormMaker, setFormContent); }}>
 
       <div className="form-inline mb-4">
         <div className="form-group">
           <label htmlFor="eventName" className="me-3"> Event Name</label>
-          <input type="name" className="form-control" id="eventName" placeholder="Enter event name" required/>
+          <input type="name" className="form-control" id="eventName" placeholder="Enter event name" required />
           <div class="invalid-feedback">
-          Please choose a username.
-        </div>
+            Please choose a username.
+          </div>
         </div>
       </div>
 
       <div className="form-inline">
         <div id="eventDate" className="form-group input-with-post-icon datepicker">
           <label htmlFor="eventDate" className="me-4">Event Date</label>
-          <input type="date" id="eventDateInput" className="form-control" required/>
+          <input type="date" id="eventDateInput" className="form-control" required />
         </div>
       </div>
 
       <br />
       <div className="form-group">
         <label htmlFor="eventDescription"> Event Description </label><br />
-        <textarea className="form-control" id="eventDescription" rows="3" style={{width : '66%'}} required></textarea>
+        <textarea className="form-control" id="eventDescription" rows="3" style={{ width: '66%' }} required></textarea>
       </div>
       <br />
       <div className="form-check form-switch mb-4">
@@ -84,7 +86,10 @@ export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMa
         <label className="form-check-label" htmlFor="askPhoneNum">Ask for phone number</label>
       </div>
       <br />
-      <button type="submit" className="btn btn-primary">Make Form!</button>
+      <div className="btn-toolbar">
+        <NavLink to="/"> <button type="button" className="btn btn-secondary me-4">Cancel</button></NavLink>
+        <button type="submit" className="btn btn-primary">Make Form!</button>
+      </div>
     </form>
   </>
 )

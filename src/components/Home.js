@@ -5,11 +5,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function Home() {
   return (
     <div className="home">
-      <div class="container">
-        <a className="nav-link" href="/create">
-          <button className="btn btn-primary">Create Form</button>
-        </a>
-        {/* <NavLink to="/about"> Dashboard </NavLink> */}
+      <div class="MainScreen">
+        <NavLink to="/create"><button type="button" className="btn btn-primary">
+          Create Form </button></NavLink>
       </div>
     </div >
 

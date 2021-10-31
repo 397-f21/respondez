@@ -40,3 +40,8 @@
 #main {
     margin: 15px;
 }
+
+a, a:hover {
+    color: white;
+    text-decoration: none;
+}

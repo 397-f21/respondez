@@ -6,8 +6,6 @@ import Home from './components/Home';
 import CreateForm from './components/CreateForm';
 
 const App = () => {
-
-
   return (
     <>
       <div id="main">
