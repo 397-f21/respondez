@@ -52,6 +52,8 @@ const createForm = (event, setFormMaker, setFormContent) => {
     "needsPhone": elements.askPhoneNum.checked
   }
 
+  
+
   console.log(JSON.stringify(formJSON));
 }
 
