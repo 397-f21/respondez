@@ -42,13 +42,13 @@ const submitForm = (event, setFormMaker, setFormContent) => {
 
 export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMaker, setFormContent }) => (
   <>
-    <form class="needs-validation" novalidate onSubmit={(event) => { submitForm(event, setFormMaker, setFormContent); }}>
+    <form className="needs-validation" noValidate onSubmit={(event) => { submitForm(event, setFormMaker, setFormContent); }}>
 
       <div className="form-inline mb-4">
         <div className="form-group">
           <label htmlFor="eventName" className="me-3"> Event Name</label>
           <input type="name" className="form-control" id="eventName" placeholder="Enter event name" required />
-          <div class="invalid-feedback">
+          <div className="invalid-feedback">
             Please choose a username.
           </div>
         </div>
@@ -68,7 +68,7 @@ export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMa
       </div>
       <br />
       <div className="form-check form-switch mb-4">
-        <input className="form-check-input" type="checkbox" id="isThereCapacity"
+        <input data-testid="capacityTest" className="form-check-input" type="checkbox" id="isThereCapacity"
           data-target="#capacityCollapse" data-toggle="collapse" />
         <label className="form-check-label" htmlFor="isThereCapacity">Set Capacity Limit?</label>
       </div>
