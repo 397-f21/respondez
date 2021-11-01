@@ -33,6 +33,15 @@ it('event description cannot be empty to create form', () => {
   expect(getByTestId('descriptionTest')).toHaveAttribute('required');
 });
 
+it('date field cannot be empty to create form', () => {
+  const { getByTestId } = render(
+    <BrowserRouter>
+      <DisplayEventCreator />
+    </BrowserRouter>
+  );
+  expect(getByTestId('dateTest')).toHaveAttribute('required');
+});
+
 describe('event name input', () => {
   it("won't submit the form if name too long", async () => {
     const { getByTestId, getByText } = render(

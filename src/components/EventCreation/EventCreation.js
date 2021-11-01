@@ -73,7 +73,7 @@ export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMa
       <div className="form-inline">
         <div id="eventDate" className="form-group input-with-post-icon datepicker">
           <label htmlFor="eventDate" className="me-4">Event Date</label>
-          <input type="date" id="eventDateInput" className="form-control" required />
+          <input type="date" id="eventDateInput" className="form-control" data-testid="dateTest" required />
         </div>
       </div>
 
