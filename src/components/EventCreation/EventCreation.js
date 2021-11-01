@@ -52,7 +52,7 @@ const createForm = (event, setFormMaker, setFormContent) => {
     "needsPhone": elements.askPhoneNum.checked
   }
 
-  
+
 
   console.log(JSON.stringify(formJSON));
 }
@@ -60,11 +60,10 @@ const createForm = (event, setFormMaker, setFormContent) => {
 export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMaker, setFormContent }) => (
   <>
     <form className="needs-validation" noValidate onSubmit={(event) => { createForm(event, setFormMaker, setFormContent); }}>
-
       <div className="form-inline mb-4">
         <div className="form-group">
           <label htmlFor="eventName" className="me-3"> Event Name</label>
-          <input type="name" className="form-control" id="eventName" placeholder="Enter event name" required />
+          <input data-testid="nameTest" type="name" className="form-control" id="eventName" placeholder="Enter event name" required />
           <div className="invalid-feedback">
             Please choose a username.
           </div>
