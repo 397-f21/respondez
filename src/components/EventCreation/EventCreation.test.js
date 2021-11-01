@@ -14,7 +14,6 @@ it('should empty capacity field at its initialization', () => {
   expect(getByTestId('capacityTest')).not.toBe('')
 });
 
-
 it('name field cannot be empty to create form', () => {
   const { getByTestId } = render(
     <BrowserRouter>
