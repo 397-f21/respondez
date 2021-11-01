@@ -104,7 +104,7 @@ export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMa
       <br />
       <div className="btn-toolbar">
         <NavLink to="/"> <button type="button" className="btn btn-secondary me-4">Cancel</button></NavLink>
-        <button type="submit" className="btn btn-primary">Make Form!</button>
+        <button type="submit" className="btn btn-primary" data-testid="submitTest">Make Form!</button>
       </div>
     </form>
   </>
