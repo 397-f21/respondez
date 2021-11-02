@@ -23,11 +23,6 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const database = getDatabase(app);
 
-// export const addToFirebase = (elements) => {
-//   if (elements.isThereCapacit)
-//     const capacityVal = 
-// }
-
 // reference: https://firebase.google.com/docs/database/web/read-and-write
 export const addNew = (elements) => {
   const db = getDatabase();
@@ -36,7 +31,8 @@ export const addNew = (elements) => {
     "eventName": elements.eventName.value,
     "date": elements.eventDateInput.value,
     "description": elements.eventDescription.value,
-    "isCapacityLimit": elements.isThereCapacity.value ? parseInt(elements.capacityLimit.value) : parseInt(-1),
+    "isCapacityLimit": elements.isThereCapacity.checked ? parseInt(elements.capacityLimit.value) : parseInt(-1),
+    "waitlist": elements.isThereCapacity.checked ? elements.isThereWaitlist.checked : false,
     "needsEmail": elements.askEmail.checked,
     "needsPhone": elements.askPhoneNum.checked
   };

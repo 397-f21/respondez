@@ -1,6 +1,7 @@
 export const FormDisplay = ({ formContent }) => (
 
   <form >
+    <h2>Preview Form</h2>
     <h2> {formContent.eventName.value}</h2>
     <p> <b>When?</b> {formContent.eventDateInput.value}</p>
     <p>{formContent.eventDescription.value}</p>

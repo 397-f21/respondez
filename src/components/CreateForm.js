@@ -12,7 +12,6 @@ const CreateForm = () => {
   const params = Object.fromEntries(urlSearchParams.entries());
   return (
     <div>
-      <h2>Create Form</h2>
       {formMaker  // params.id === null 
         ? <DisplayEventCreator capacityLimit={capacityLimit} setCapacityLimit={setCapacityLimit} setFormMaker={setFormMaker} setFormContent={setFormContent} />
         : <FormDisplay formContent={formContent} />}
