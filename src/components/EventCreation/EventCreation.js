@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NavLink } from 'react-router-dom'
+import { addNew } from '../FirebaseHandle'
 
 // TODO: find the bug and fix it. maybe even set up a test.......
 let changeCapacityLimit = (e, setCapacityLimit) => setCapacityLimit(e.target.checked);
@@ -23,7 +24,6 @@ const CapacityForm = () => (
 const validateTime = (date) => {
   var inputDate = new Date(date);
   var todaydate = new Date();
-
   return inputDate.getTime() >= todaydate.getTime();
 }
 
@@ -42,19 +42,8 @@ const createForm = (event, setFormMaker, setFormContent) => {
     setFormMaker(false);
   }
 
-  // fill in all relevant info for creating the form.
-  const formJSON = {
-    "eventName": elements.eventName.value,
-    "date": elements.eventDateInput.value,
-    "description": elements.eventDescription.value,
-    "isCapacityLimit": elements.isThereCapacity.value ? parseInt(elements.capacityLimit.value) : null,
-    "needsEmail": elements.askEmail.checked,
-    "needsPhone": elements.askPhoneNum.checked
-  }
+  addNew(elements);
 
-
-
-  console.log(JSON.stringify(formJSON));
 }
 
 export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMaker, setFormContent }) => (
