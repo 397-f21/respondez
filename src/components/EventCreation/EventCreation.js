@@ -31,19 +31,14 @@ const createForm = (event, setFormMaker, setFormContent) => {
   event.preventDefault();
   const elements = event.target.elements;
 
-  console.log(elements);
   if (!validateTime(elements.eventDateInput.value)) {
     alert("Invalid Event Date: Event must take place today or later.");
-  }
-
-  else {
-    alert("Form created successfully!");
+  } else {
+    const hashedKey = addNew(elements);
+    alert("Your form url: " + hashedKey);
     setFormContent(elements);
     setFormMaker(false);
   }
-
-  addNew(elements);
-
 }
 
 export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMaker, setFormContent }) => (
@@ -99,10 +94,3 @@ export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMa
     </form>
   </>
 )
-
-/*
-<div className="form-check">
-        <input type="checkbox" className="form-check-input" id="askRSVP" />
-        <label className="form-check-label" htmlFor="askRSVP">Ask for RSVP</label>
-      </div>
-*/

@@ -43,6 +43,7 @@ export const addNew = (elements) => {
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
   updates['/' + newPostKey] = postData;
+  update(ref(db), updates);
 
-  return update(ref(db), updates);
+  return newPostKey; // return the hashed value
 }
