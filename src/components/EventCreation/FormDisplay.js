@@ -1,6 +1,6 @@
-export const FormDisplay = ({ formContent }) => (
-
+const FormDisplay = ({ formContent, params }) => {
   <form >
+    <h1>{params.id}</h1>
     <h2>Preview Form</h2>
     <h2> {formContent.eventName.value}</h2>
     <p> <b>When?</b> {formContent.eventDateInput.value}</p>
@@ -30,4 +30,6 @@ export const FormDisplay = ({ formContent }) => (
       : ``}
     <button type="submit" className="btn btn-primary">Submit</button>
   </form>
-)
+}
+
+export default FormDisplay;

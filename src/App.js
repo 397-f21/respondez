@@ -4,6 +4,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import Home from './components/Home';
 import CreateForm from './components/CreateForm';
+import FormDisplay from './components/EventCreation/FormDisplay';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/create" component={CreateForm} />
+            <Route path="/form" component={FormDisplay} />
             <Route component={Error} />
           </Switch>
         </BrowserRouter>

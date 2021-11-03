@@ -21,7 +21,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-const database = getDatabase(app);
 
 // reference: https://firebase.google.com/docs/database/web/read-and-write
 export const addNew = (elements) => {
@@ -46,4 +45,17 @@ export const addNew = (elements) => {
   update(ref(db), updates);
 
   return newPostKey; // return the hashed value
+}
+
+export const getForm = (newPostKey) => {
+  const dbRef = ref(getDatabase());
+  get(child(dbRef, `/${newPostKey}`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
+    }
+  }).catch((error) => {
+    return error;
+  });
 }

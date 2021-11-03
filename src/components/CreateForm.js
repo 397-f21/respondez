@@ -13,8 +13,10 @@ const CreateForm = () => {
   return (
     <div>
       {formMaker  // params.id === null 
-        ? <DisplayEventCreator capacityLimit={capacityLimit} setCapacityLimit={setCapacityLimit} setFormMaker={setFormMaker} setFormContent={setFormContent} />
-        : <FormDisplay formContent={formContent} />}
+        ? <DisplayEventCreator capacityLimit={capacityLimit}
+          setCapacityLimit={setCapacityLimit} setFormMaker={setFormMaker}
+          setFormContent={setFormContent} />
+        : <FormDisplay formContent={formContent} params={params} />}
     </div>
   );
 }
