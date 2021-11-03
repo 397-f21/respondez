@@ -35,7 +35,7 @@ const createForm = (event, setFormMaker, setFormContent) => {
     alert("Invalid Event Date: Event must take place today or later.");
   } else {
     const hashedKey = addNew(elements);
-    getForm(hashedKey); // printing purpose
+    console.log(getForm(hashedKey)); // printing purpose
     alert("Your form url: " + hashedKey);
     setFormContent(elements);
     setFormMaker(false);

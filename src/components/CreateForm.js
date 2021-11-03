@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
 import { DisplayEventCreator } from './EventCreation/EventCreation';
-import { FormDisplay } from './EventCreation/FormDisplay';
 
 const CreateForm = () => {
   const [capacityLimit, setCapacityLimit] = useState(false);
@@ -16,7 +15,7 @@ const CreateForm = () => {
         ? <DisplayEventCreator capacityLimit={capacityLimit}
           setCapacityLimit={setCapacityLimit} setFormMaker={setFormMaker}
           setFormContent={setFormContent} />
-        : <FormDisplay formContent={formContent} params={params} />}
+        : <h1>test</h1>}
     </div>
   );
 }

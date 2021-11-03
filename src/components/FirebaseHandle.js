@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getDatabase, ref, child, get, push, update } from "firebase/database";
+import { getDatabase, ref, child, get, push, update, onValue } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -47,9 +47,9 @@ export const addNew = (elements) => {
   return newPostKey; // return the hashed value
 }
 
-export const getForm = (newPostKey) => {
+export const getForm = async (newPostKey) => {
   const dbRef = ref(getDatabase());
-  get(child(dbRef, `/${newPostKey}`)).then((snapshot) => {
+  return await get(child(dbRef, `/${newPostKey}`)).then((snapshot) => {
     if (snapshot.exists()) {
       return snapshot.val();
     } else {
