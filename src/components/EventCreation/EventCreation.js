@@ -70,12 +70,12 @@ export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMa
       </div>
       <br />
       <div className="form-check form-switch mb-4">
-        <input data-testid="capacityTest" className="form-check-input" type="checkbox" id="isThereCapacity"
+        <input data-cy='capacityCy' data-testid="capacityTest" className="form-check-input" type="checkbox" id="isThereCapacity"
           data-target="#capacityCollapse" data-toggle="collapse" />
         <label className="form-check-label" htmlFor="isThereCapacity">Set Capacity Limit?</label>
       </div>
 
-      <div id="capacityCollapse" className="collapse">
+      <div data-cy='waitlistDivCy' id="capacityCollapse" className="collapse">
         <CapacityForm />
       </div>
 

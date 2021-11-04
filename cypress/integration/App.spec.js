@@ -7,4 +7,10 @@ describe('Test App', () => {
         cy.visit('/');
         cy.get('[data-cy=createFormCy]').should('contain', 'Create Form');
     });
+
+    it('shows the capacity and waitlist checkbox when capacity limit is clicked', () => {
+        cy.visit('/create');
+        cy.get('[data-cy=capacityCy]').click();
+        cy.get('[data-cy=waitlistDivCy]').should('be.visible');
+    });
 });
