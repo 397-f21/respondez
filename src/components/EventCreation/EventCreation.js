@@ -37,8 +37,8 @@ const createForm = (event, setFormMaker, setFormContent) => {
     const hashedKey = addNew(elements);
     // console.log(getForm(hashedKey)); // printing purpose
     alert("Your form url: " + hashedKey);
-    setFormContent(elements);
-    setFormMaker(false);
+    //setFormContent(elements);
+    //setFormMaker(false);
   }
 }
 

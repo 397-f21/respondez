@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+//import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, child, get, push, update, onValue } from "firebase/database";
 import { useState, useEffect } from 'react'; // trackable state
 // TODO: Add SDKs for Firebase products that you want to use
@@ -23,6 +23,17 @@ const firebaseConfig = {
 const firebase = initializeApp(firebaseConfig);
 const database = getDatabase(firebase);
 
+export const addSubmission = (submission, id) => {
+  const updates = {};
+
+  // INCREMENT SUBMISSIONS
+  //submissions 
+
+  // ADD NEW SUBMISSION AS AN ENTRY UNDER RESULTS
+  //updates['/' + id + '/results/' + ] = submission;
+  //update(ref(database), updates);
+}
+
 // reference: https://firebase.google.com/docs/database/web/read-and-write
 export const addNew = (elements) => {
   const db = getDatabase();
@@ -34,7 +45,9 @@ export const addNew = (elements) => {
     "isCapacityLimit": elements.isThereCapacity.checked ? parseInt(elements.capacityLimit.value) : parseInt(-1),
     "waitlist": elements.isThereCapacity.checked ? elements.isThereWaitlist.checked : false,
     "needsEmail": elements.askEmail.checked,
-    "needsPhone": elements.askPhoneNum.checked
+    "needsPhone": elements.askPhoneNum.checked,
+    "numSubmissions": 0,
+    "results": {}
   };
 
   // Get a key for a new Post.
@@ -77,5 +90,7 @@ export const formData = form => ({
   "isCapacityLimit": form.isCapacityLimit,
   "waitlist": form.waitlist,
   "needsEmail": form.needsEmail,
-  "needsPhone": form.needsPhone
+  "needsPhone": form.needsPhone,
+  "numSubmissions": form.numSubmissions,
+  "results": form.results
 });
