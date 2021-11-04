@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NavLink } from 'react-router-dom'
-import { addNew, getForm } from '../FirebaseHandle'
+import { addNew } from '../FirebaseHandle'
 
 // TODO: find the bug and fix it. maybe even set up a test.......
 let changeCapacityLimit = (e, setCapacityLimit) => setCapacityLimit(e.target.checked);
@@ -35,7 +35,7 @@ const createForm = (event, setFormMaker, setFormContent) => {
     alert("Invalid Event Date: Event must take place today or later.");
   } else {
     const hashedKey = addNew(elements);
-    console.log(getForm(hashedKey)); // printing purpose
+    // console.log(getForm(hashedKey)); // printing purpose
     alert("Your form url: " + hashedKey);
     setFormContent(elements);
     setFormMaker(false);
