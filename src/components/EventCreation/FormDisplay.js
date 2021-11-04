@@ -5,13 +5,10 @@ import { NavLink } from 'react-router-dom'
 const FormDisplay = () => {
   const urlSearchParams = new URLSearchParams(window.location.search);
   const params = Object.fromEntries(urlSearchParams.entries());
+  const [formObject, loading, error] = useData('/' + params.id, formData);
 
-  // const json = useData('-MnXWiXjH6O1CqMKfUAs');
-  const [formObject, loading, error] = useData('/' + '-MnXWiXjH6O1CqMKfUAs', formData); // hardcoded key
-  // console.log(params.id);
-
-  if (error) return <h1>{error}</h1>;
-  if (loading) return <h1>Loading the form...</h1>
+  if (error) return <h2>{error}</h2>;
+  if (loading) return <h2>Loading the form...</h2>
 
   return (
     <form >
