@@ -42,6 +42,7 @@ export const createForm = (event) => {
     const hashedKey = addForm(elements);
     // console.log(getForm(hashedKey)); // printing purpose
     alert("Your form url: " + hashedKey);
+    window.location.assign(window.location.href.split("/create")[0]);
   }
 }
 

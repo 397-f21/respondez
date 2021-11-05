@@ -32,6 +32,7 @@ const FormDisplay = () => {
     }
     
     addSubmission(submission, params.id);
+    window.location.assign(window.location.href.split("/form")[0]);
   }
 
   return (

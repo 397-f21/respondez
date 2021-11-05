@@ -36,6 +36,8 @@ function Home() {
     window.location.assign(window.location.href + 'form/?id=' + elements.formCode.value);
   }
 
+  
+
   return (
     <div className="home">
       <div class="MainScreen">
@@ -48,6 +50,7 @@ function Home() {
             Fill Response
           </button>
       </div>
+      
       <Modal show={show1} onHide={handleClose1}>
         <Modal.Header>
           <Modal.Title>What is your form code?</Modal.Title>
