@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
-import { DisplayEventCreator } from './EventCreation';
+import { DisplayEventCreator, createForm } from './EventCreation';
 import { BrowserRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils'; // ES6
 
@@ -12,7 +12,7 @@ it('should empty capacity field at its initialization', () => {
       <DisplayEventCreator />
     </BrowserRouter>
   );
-  expect(getByTestId('capacityTest')).not.toBe('')
+  expect(getByTestId('capacityTest')).not.toBe('') // ??
 });
 
 it('name field cannot be empty to create form', () => {
@@ -42,20 +42,30 @@ it('date field cannot be empty to create form', () => {
   expect(getByTestId('dateTest')).toHaveAttribute('required');
 });
 
-describe('event name input', () => {
-  it("won't submit the form if name too long", async () => {
-    const { getByTestId, getByText } = render(
-      <BrowserRouter>
-      <DisplayEventCreator />
-    </BrowserRouter>
-    );
-    const nameField = getByTestId("nameTest");
-    const submitButton = getByTestId("submitTest");
-    nameField.innerHTML = "123456789012345678901234567890123456789012345678901";
-    await act(async () => {
-      fireEvent.click(submitButton);
-    });
-    const alert = getByText("Invalid event name: Must be under 50 characters.");
-    expect(alert).toHaveTextContent("Invalid event name: Must be under 50 characters.");
-  })
-})
+describe('createForm', () => {
+  it("won't submit the form if date before today", () => {
+    let elements = {}
+    elements.eventName = "my event";
+    elements.eventDateInput = {"value": new Date('October 1, 2021')};
+
+    const mockAlert = jest.spyOn(window, 'alert');
+    mockAlert.mockImplementation(() => {});
+    createForm({"target": {"elements": elements}, "preventDefault": () => null});
+
+    expect(mockAlert).toHaveBeenCalledTimes(1);
+    expect(mockAlert).toHaveBeenCalledWith("Invalid Event Date: Event must take place today or later.");
+  });
+
+  it("won't submit the form if name too long", () => {
+    let elements = {}
+    elements.eventName = "123456789012345678901234567890123456789012345678901";
+    elements.eventDateInput = {"value": new Date('December 1, 2021')};
+
+    const mockAlert = jest.spyOn(window, 'alert');
+    mockAlert.mockImplementation(() => {});
+    createForm({"target": {"elements": elements}, "preventDefault": () => null});
+
+    expect(mockAlert).toHaveBeenCalledTimes(1);
+    expect(mockAlert).toHaveBeenCalledWith("Invalid event name: Must be under 50 characters.");
+  });
+});

@@ -24,16 +24,21 @@ const CapacityForm = () => (
 const validateTime = (date) => {
   var inputDate = new Date(date);
   var todaydate = new Date();
+  console.log(inputDate, todaydate);
   return inputDate.getTime() >= todaydate.getTime();
 }
 
-const createForm = (event, setFormMaker, setFormContent) => {
+export const createForm = (event/*, setFormMaker, setFormContent*/) => {
   event.preventDefault();
   const elements = event.target.elements;
 
   if (!validateTime(elements.eventDateInput.value)) {
     alert("Invalid Event Date: Event must take place today or later.");
-  } else {
+  }
+  else if (elements.eventName.length > 50) {
+    alert("Invalid event name: Must be under 50 characters.");
+  }
+  else {
     const hashedKey = addNew(elements);
     // console.log(getForm(hashedKey)); // printing purpose
     alert("Your form url: " + hashedKey);
