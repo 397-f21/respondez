@@ -92,5 +92,4 @@ export const formData = form => ({
   "results": form.results
 });
 
-export const allData = data => ({
-  "data": data})
+export const allData = data => (data)

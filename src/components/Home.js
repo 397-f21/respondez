@@ -13,7 +13,22 @@ function Home() {
   const [formObject, loading, error] = useData('/', allData);
   if (error) return <h2>{error}</h2>;
   if (loading) return <h2>Loading the form...</h2>
-  console.log(formObject);
+
+  let allForms = []
+  for (let i in formObject) {
+    // console.log(i);
+    // console.log(formObject[i].results);
+    // for (let j in formObject[i].results) {
+    //   console.log(formObject[i].results[j]);
+    // }
+    // console.log(formObject[i].date);
+    allForms.push([i, formObject[i]]);
+  }
+  console.log(allForms);
+  console.log(allForms[1][1].date); 
+
+  
+
 
   const getUrl = (event) => {
     event.preventDefault();
