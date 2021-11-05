@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NavLink } from 'react-router-dom'
-import { addNew } from '../FirebaseHandle'
+import { addForm } from '../FirebaseHandle'
 
 // TODO: find the bug and fix it. maybe even set up a test.......
 let changeCapacityLimit = (e, setCapacityLimit) => setCapacityLimit(e.target.checked);
@@ -28,7 +28,7 @@ const validateTime = (date) => {
   return inputDate.getTime() >= todaydate.getTime();
 }
 
-export const createForm = (event/*, setFormMaker, setFormContent*/) => {
+export const createForm = (event) => {
   event.preventDefault();
   const elements = event.target.elements;
 
@@ -39,11 +39,9 @@ export const createForm = (event/*, setFormMaker, setFormContent*/) => {
     alert("Invalid event name: Must be under 50 characters.");
   }
   else {
-    const hashedKey = addNew(elements);
+    const hashedKey = addForm(elements);
     // console.log(getForm(hashedKey)); // printing purpose
     alert("Your form url: " + hashedKey);
-    //setFormContent(elements);
-    //setFormMaker(false);
   }
 }
 

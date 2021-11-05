@@ -24,20 +24,19 @@ const firebase = initializeApp(firebaseConfig);
 const database = getDatabase(firebase);
 
 export const addSubmission = (submission, id) => {
+  // Get a key for a new Post.
+  const newPostKey = push(child(ref(database), '/' + id + '/results/')).key;
+
+  // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
+  updates['/' + id + '/results/' + newPostKey] = submission;
+  update(ref(database ), updates);
 
-  // INCREMENT SUBMISSIONS
-  //submissions 
-
-  // ADD NEW SUBMISSION AS AN ENTRY UNDER RESULTS
-  //updates['/' + id + '/results/' + ] = submission;
-  //update(ref(database), updates);
+  return newPostKey;
 }
 
 // reference: https://firebase.google.com/docs/database/web/read-and-write
-export const addNew = (elements) => {
-  const db = getDatabase();
-
+export const addForm = (elements) => {
   const postData = {
     "eventName": elements.eventName.value,
     "date": elements.eventDateInput.value,
@@ -46,17 +45,16 @@ export const addNew = (elements) => {
     "waitlist": elements.isThereCapacity.checked ? elements.isThereWaitlist.checked : false,
     "needsEmail": elements.askEmail.checked,
     "needsPhone": elements.askPhoneNum.checked,
-    "numSubmissions": 0,
     "results": {}
   };
 
   // Get a key for a new Post.
-  const newPostKey = push(child(ref(db), 'posts')).key;
+  const newPostKey = push(child(ref(database), 'posts')).key;
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
   updates['/' + newPostKey] = postData;
-  update(ref(db), updates);
+  update(ref(database), updates);
 
   return newPostKey; // return the hashed value
 }
@@ -91,6 +89,5 @@ export const formData = form => ({
   "waitlist": form.waitlist,
   "needsEmail": form.needsEmail,
   "needsPhone": form.needsPhone,
-  "numSubmissions": form.numSubmissions,
   "results": form.results
 });

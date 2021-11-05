@@ -21,7 +21,7 @@ const FormDisplay = () => {
     // store the submission in firebase!!!!!
     const submission = {
       "rsvpName": elements.rsvpName.value,
-      "rsvpEmail": elements.rsvpEmail.value /* make sure works when no email/phone option */
+      // "rsvpEmail": elements.rsvpEmail.value /* make sure works when no email/phone option */
     }
     addSubmission(submission, params.id);
   }
