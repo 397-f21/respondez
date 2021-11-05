@@ -18,11 +18,21 @@ const FormDisplay = () => {
     console.log(params.id);
     console.log("name:"+elements.rsvpName.value);
 
-    // store the submission in firebase!!!!!
-    const submission = {
+    var submission = {
       "rsvpName": elements.rsvpName.value,
-      // "rsvpEmail": elements.rsvpEmail.value /* make sure works when no email/phone option */
+      "rsvpEmail": formObject.needsEmail ? elements.rsvpEmail.value : formObject.needsEmail,
+      "rsvpPhone": formObject.needsPhone ? elements.rsvpPhone.value : formObject.needsPhone
     }
+
+    // remove false fields
+    // reference: https://stackoverflow.com/a/24770914
+    if (formObject.needsEmail == false) {
+      delete submission["rsvpEmail"];
+    }
+    if (formObject.needsPhone == false) {
+      delete submission["rsvpPhone"];
+    }
+    
     addSubmission(submission, params.id);
   }
 
