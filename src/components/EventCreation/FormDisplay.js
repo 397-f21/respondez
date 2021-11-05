@@ -8,6 +8,7 @@ const FormDisplay = () => {
   const params = Object.fromEntries(urlSearchParams.entries());
   const [formObject, loading, error] = useData('/' + params.id, formData);
 
+
   if (error) return <h2>{error}</h2>;
   if (loading) return <h2>Loading the form...</h2>
 

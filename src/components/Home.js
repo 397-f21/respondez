@@ -3,10 +3,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import Modal from "react-bootstrap/Modal";
 
+import {useData, formData, allData} from './FirebaseHandle'
+
 function Home() {
   const [show1, setShow1] = useState(false);
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
+
+  const [formObject, loading, error] = useData('/', allData);
+  if (error) return <h2>{error}</h2>;
+  if (loading) return <h2>Loading the form...</h2>
+  console.log(formObject);
 
   const getUrl = (event) => {
     event.preventDefault();

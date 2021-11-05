@@ -91,3 +91,6 @@ export const formData = form => ({
   "needsPhone": form.needsPhone,
   "results": form.results
 });
+
+export const allData = data => ({
+  "data": data})
