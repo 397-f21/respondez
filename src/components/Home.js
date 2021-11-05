@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 
 import {useData, formData, allData} from './FirebaseHandle'
 
-function Home() {
+const Home = () => {
   const [show1, setShow1] = useState(false);
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
@@ -14,7 +14,7 @@ function Home() {
   if (error) return <h2>{error}</h2>;
   if (loading) return <h2>Loading the form...</h2>
 
-  let allForms = []
+  let allForms = new Map();
   for (let i in formObject) {
     // console.log(i);
     // console.log(formObject[i].results);
@@ -22,10 +22,10 @@ function Home() {
     //   console.log(formObject[i].results[j]);
     // }
     // console.log(formObject[i].date);
-    allForms.push([i, formObject[i]]);
+    allForms.set(i, formObject[i]);
   }
   console.log(allForms);
-  console.log(allForms[1][1].date); 
+  //console.log(allForms[0].date); 
 
   
 
@@ -37,6 +37,7 @@ function Home() {
   }
 
   
+  console.log(Array.from(allForms));
 
   return (
     <div className="home">
@@ -48,7 +49,11 @@ function Home() {
         </NavLink>
         <button type="button" className="btn btn-success" onClick={handleShow1}>
             Fill Response
-          </button>
+        </button>
+
+        <ul className='list-group'>
+        { Array.from(allForms).map(form => <li className="list-group-item list-group-item-primary" key={form[0]}>{form[1].eventName}; key is {form[0]}</li>) }
+        </ul>
       </div>
       
       <Modal show={show1} onHide={handleClose1}>
