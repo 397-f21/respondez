@@ -14,14 +14,11 @@ const FormDisplay = () => {
   const submitForm = (event) => {
     event.preventDefault();
     const elements = event.target.elements;
-    console.log("FORM SUBMISSION:"+elements);
-    console.log(params.id);
-    console.log("name:"+elements.rsvpName.value);
 
     var submission = {
       "rsvpName": elements.rsvpName.value,
       "rsvpEmail": formObject.needsEmail ? elements.rsvpEmail.value : formObject.needsEmail,
-      "rsvpPhone": formObject.needsPhone ? elements.rsvpPhone.value : formObject.needsPhone
+      "rsvpPhone": formObject.needsPhone ? elements.rsvpPhoneNum.value : formObject.needsPhone
     }
 
     // remove false fields
@@ -38,7 +35,6 @@ const FormDisplay = () => {
 
   return (
     <form onSubmit={(event) => { submitForm(event); }}>
-      <h2>Preview Form</h2>
       <h3> { formObject.eventName }</h3>
       <p> <b>When?</b> {formObject.date}</p>
       <p>{formObject.description}</p>
