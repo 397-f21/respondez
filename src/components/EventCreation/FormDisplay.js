@@ -1,4 +1,4 @@
-import {useData, formData} from '../FirebaseHandle'
+import { useData, formData } from '../FirebaseHandle'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NavLink } from 'react-router-dom'
 import { addSubmission } from '../FirebaseHandle'
@@ -30,14 +30,14 @@ const FormDisplay = () => {
     if (formObject.needsPhone == false) {
       delete submission["rsvpPhone"];
     }
-    
+
     addSubmission(submission, params.id);
     window.location.assign(window.location.href.split("/form")[0]);
   }
 
   return (
     <form onSubmit={(event) => { submitForm(event); }}>
-      <h3> { formObject.eventName }</h3>
+      <h3> {formObject.eventName}</h3>
       <p> <b>When?</b> {formObject.date}</p>
       <p>{formObject.description}</p>
       <p> {formObject.isCapacityLimit !== -1 ? `Event Capacity: ${formObject.isCapacityLimit}` : ``} </p>
@@ -68,7 +68,6 @@ const FormDisplay = () => {
         <NavLink to="/"> <button id="rsvpCancel" type="button" className="btn btn-secondary mt-4 me-4">Cancel</button></NavLink>
         <button type="submit" id="rsvpSubmit" className="btn btn-primary mt-4"  >Submit</button>
       </div>
-
     </form>
   );
 }

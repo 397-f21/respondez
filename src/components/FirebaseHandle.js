@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 //import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, child, get, push, update, onValue } from "firebase/database";
 import { useState, useEffect } from 'react'; // trackable state
+import { getAuth, GoogleAuthProvider, onIdTokenChanged, signInWithPopup, signOut } from 'firebase/auth';
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -23,6 +25,23 @@ const firebaseConfig = {
 const firebase = initializeApp(firebaseConfig);
 const database = getDatabase(firebase);
 
+export const signInWithGoogle = () => {
+  signInWithPopup(getAuth(firebase), new GoogleAuthProvider());
+};
+
+const firebaseSignOut = () => signOut(getAuth(firebase));
+export { firebaseSignOut as signOut };
+
+export const useUserState = () => {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    onIdTokenChanged(getAuth(firebase), setUser);
+  }, []);
+
+  return [user];
+};
+
 export const addSubmission = (submission, id) => {
   // Get a key for a new Post.
   const newPostKey = push(child(ref(database), '/' + id + '/results/')).key;
@@ -30,7 +49,7 @@ export const addSubmission = (submission, id) => {
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
   updates['/' + id + '/results/' + newPostKey] = submission;
-  update(ref(database ), updates);
+  update(ref(database), updates);
 
   return newPostKey;
 }
@@ -65,17 +84,17 @@ export const useData = (path, transform) => {
   const [error, setError] = useState();
 
   useEffect(() => {
-      const dbRef = ref(database, path);
-      return onValue(dbRef, (snapshot) => {
-          const val = snapshot.val();
-          setData(transform ? transform(val) : val);
-          setLoading(false);
-          setError(null);
-      }, (error) => {
-          setData(null);
-          setLoading(false);
-          setError(error);
-      });
+    const dbRef = ref(database, path);
+    return onValue(dbRef, (snapshot) => {
+      const val = snapshot.val();
+      setData(transform ? transform(val) : val);
+      setLoading(false);
+      setError(null);
+    }, (error) => {
+      setData(null);
+      setLoading(false);
+      setError(error);
+    });
   }, [path, transform]);
 
   return [data, loading, error];

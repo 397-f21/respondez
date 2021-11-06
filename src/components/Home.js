@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import Modal from "react-bootstrap/Modal";
 
-import {useData, formData, allData} from './FirebaseHandle'
+import { useData, formData, allData } from './FirebaseHandle'
 
 const Home = () => {
   const [show1, setShow1] = useState(false);
@@ -27,7 +27,7 @@ const Home = () => {
   console.log(allForms);
   //console.log(allForms[0].date); 
 
-  
+
 
 
   const getUrl = (event) => {
@@ -36,26 +36,26 @@ const Home = () => {
     window.location.assign(window.location.href + 'form/?id=' + elements.formCode.value);
   }
 
-  
+
   console.log(Array.from(allForms));
 
   return (
     <div className="home">
       <div class="MainScreen">
-        <NavLink data-testid="createFormButtonLink" to="/create">
+
+        {/* disabled main buttons --replaced with nav bar */}
+        {/* <NavLink data-testid="createFormButtonLink" to="/create">
           <button data-cy="createFormCy" data-testid="createFormButton" type="button" className="btn btn-primary me-4">
             Create Form
           </button>
         </NavLink>
-        <button type="button" className="btn btn-success" onClick={handleShow1}>
-            Fill Response
-        </button>
+        <button type="button" className="btn btn-success" onClick={handleShow1}>Fill Response</button> */}
 
         <ul className='list-group'>
-        { Array.from(allForms).map(form => <li className="list-group-item list-group-item-primary" key={form[0]}>{form[1].eventName}; key is {form[0]}</li>) }
+          {Array.from(allForms).map(form => <li className="list-group-item list-group-item-primary" key={form[0]}>{form[1].eventName}; key is {form[0]}</li>)}
         </ul>
       </div>
-      
+
       <Modal show={show1} onHide={handleClose1}>
         <Modal.Header>
           <Modal.Title>What is your form code?</Modal.Title>
