@@ -17,29 +17,40 @@ const Home = () => {
 
   let allForms = new Map();
   for (let i in formObject) {
-    // console.log(i);
-    // console.log(formObject[i].results);
-    // for (let j in formObject[i].results) {
-    //   console.log(formObject[i].results[j]);
-    // }
-    // console.log(formObject[i].date);
     if (formObject[i].author == getUID(user)) {
-      allForms.set(i, formObject[i]);
+      let form = formObject[i]
+      if (form.isCapacityLimit == -1) { form.isCapacityLimit = "N/A"; }
+      if (form.waitlist == false) { form.waitlist = "N/A"; }
+      let resultCnt = 0;
+      for (let j in form.results) { resultCnt += 1; }
+      form["rsvp"] = resultCnt;
+      allForms.set(i, form);
     }
   }
-  // console.log(allForms);
 
   let allResponses = new Map();
   for (let i in formObject) {
+    let form = formObject[i];
     let formResult = formObject[i].results
+    let formCount = 0;
     for (let j in formResult) {
-      if (formResult[j].author == getUID(user)) {
-        allResponses.set(i, formObject[i]);
+      formCount += 1;
+      if (formResult[j].author == getUID(user)) { // get user's response
+        let status = "Admitted"
+        if (formObject[i].isCapacityLimit != -1) { // there is a capacity limit
+          if (j > formObject[i].isCapacityLimit) { // over the capacity limit
+            if (formObject[i].waitlist == true) { // waitlist available
+              status = "Waitlisted (" + String(formCount - formObject[i].isCapacityLimit) + "/" + String(formObject[i].isCapacityLimit) + ")";
+            } else { // no waitlist
+              status = "Event Closed"
+            }
+          }
+        }
+        form["status"] = status;
+        allResponses.set(i, form);
       }
     }
   }
-  console.log(allResponses);
-
 
   const getUrl = (event) => {
     event.preventDefault();
@@ -58,36 +69,30 @@ const Home = () => {
           </button>
         </NavLink>
         <button type="button" className="btn btn-success" onClick={handleShow1}>Fill Response</button> */}
-        <div class="card border-primary mt-4">
+        <div class="card border-primary mt-4" type="button" data-toggle="collapse" data-target="#formList" aria-expanded="true">
           <div class="card-header" id="headingOne">
-            <h5 class="mb-0">
-              <button class="btn" type="button" data-toggle="collapse" data-target="#formList" aria-expanded="true">
-                Your Forms
-              </button>
-            </h5>
+            <h5 class="mb-0">Your Forms</h5>
           </div>
         </div>
         <div class="collapse show" id="formList">
           <ul className='list-group'>
             {Array.from(allForms).map(form =>
-              <li className="list-group-item list-group-item-light" key={form[0]}>{form[1].eventName}</li>)}
+              <li className="list-group-item list-group-item-light" key={form[0]}>
+                {form[1].eventName} (RSVP: {form[1].rsvp}, Waitlist: {form[1].waitlist}, Capacity: {form[1].isCapacityLimit})</li>)}
             {/* ; key is {form[0]} */}
           </ul>
         </div>
 
-        <div class="card border-info mt-2">
+        <div class="card border-info mt-2" type="button" data-toggle="collapse" data-target="#responseList" aria-expanded="true">
           <div class="card-header" id="headingOne">
-            <h5 class="mb-0">
-              <button class="btn" type="button" data-toggle="collapse" data-target="#responseList" aria-expanded="true">
-                Your Responses
-              </button>
-            </h5>
+            <h5 class="mb-0">Your Responses</h5>
           </div>
         </div>
         <div class="collapse show" id="responseList">
           <ul className='list-group'>
             {Array.from(allResponses).map(form =>
-              <li className="list-group-item list-group-item-light" key={form[0]}>{form[1].eventName}</li>)}
+              <li className="list-group-item list-group-item-light" key={form[0]}>
+                {form[1].eventName} (Status: {form[1].status})</li>)}
             {/* ; key is {form[0]} */}
           </ul>
         </div>

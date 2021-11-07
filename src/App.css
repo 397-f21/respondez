@@ -49,3 +49,7 @@ a, a:hover {
 #navTitle {
     font-size: calc(16px + 2vmin);
 }
+
+h5 {
+    color:rgb(75, 73, 73);
+}
