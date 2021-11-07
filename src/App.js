@@ -13,6 +13,9 @@ const App = () => {
   const [show1, setShow1] = useState(false);
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
+  const [show2, setShow2] = useState(false);
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
 
   const [user] = useUserState();
 
@@ -53,8 +56,10 @@ const App = () => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
               {user ? <SignOutButton /> : <SignInButton />}
-              <a class="nav-link" href={createLink()}>Create Form</a>
-              <Nav.Link onClick={handleShow1}>Fill Response</Nav.Link>
+              {user ? <a class="nav-link" href={createLink()}>Create Form</a> :
+                <Nav.Link onClick={handleShow2}>Create Form</Nav.Link>}
+              {user ? <Nav.Link onClick={handleShow1}>Fill Response</Nav.Link> :
+                <Nav.Link onClick={handleShow2}>Fill Response</Nav.Link>}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
@@ -89,6 +94,21 @@ const App = () => {
             <button className="btn btn-primary" type='submit'>Go!</button>
           </Modal.Footer>
         </form>
+      </Modal>
+
+      <Modal show={show2} onHide={handleClose2}>
+        <Modal.Header>
+          <Modal.Title>Sign In</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Please sign in first before creating a form or fill out a reponse.</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button type="button" className="btn btn-secondary" onClick={handleClose2}>
+            Close
+          </button>
+          <button className="btn btn-primary" type='submit' onClick={() => signInWithGoogle()}>Sign In</button>
+        </Modal.Footer>
       </Modal>
     </>
   );
