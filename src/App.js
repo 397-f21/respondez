@@ -48,7 +48,7 @@ const App = () => {
     <>
       <div id="main">
         <Navbar collapseOnSelect expand="false" bg="dark" variant="dark">
-          <Navbar.Brand>
+          <Navbar.Brand id="navTitle">
             {/* <i id="navLogo" class="fa fa-heart"></i> */}
             <a href='/'>RespondEZ</a>
           </Navbar.Brand>
@@ -64,7 +64,6 @@ const App = () => {
           </Navbar.Collapse>
         </Navbar>
         <div id="content">
-          <h1> RespondEZ</h1>
           <BrowserRouter>
             <Switch>
               <Route path="/" component={Home} exact />

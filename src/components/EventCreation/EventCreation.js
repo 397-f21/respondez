@@ -60,7 +60,7 @@ export const createForm = (event) => {
 
 export const DisplayEventCreator = ({ capacityLimit, setCapacityLimit, setFormMaker, setFormContent }) => (
   <>
-    <h2>Create Form</h2>
+    <h3>Create Form</h3>
     <form className="needs-validation" noValidate onSubmit={(event) => { createForm(event, setFormMaker, setFormContent); }}>
       <div className="form-inline mb-4">
         <div className="form-group">

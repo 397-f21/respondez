@@ -35,6 +35,13 @@ export const signInWithGoogle = () => {
 const firebaseSignOut = () => signOut(getAuth(firebase));
 export { firebaseSignOut as signOut };
 
+export const getUID = (user) => {
+  if (user == null) { return "" }
+  const auth = getAuth();
+  const userID = auth.currentUser.uid;
+  return userID;
+}
+
 export const useUserState = () => {
   const [user, setUser] = useState();
 

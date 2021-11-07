@@ -45,3 +45,7 @@ a, a:hover {
     color: white;
     text-decoration: none;
 }
+
+#navTitle {
+    font-size: calc(16px + 2vmin);
+}
