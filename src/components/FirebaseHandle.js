@@ -3,7 +3,10 @@ import { initializeApp } from "firebase/app";
 //import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, child, get, push, update, onValue } from "firebase/database";
 import { useState, useEffect } from 'react'; // trackable state
-import { getAuth, GoogleAuthProvider, onIdTokenChanged, signInWithPopup, signOut } from 'firebase/auth';
+import {
+  getAuth, GoogleAuthProvider, onIdTokenChanged,
+  signInWithPopup, signOut, onAuthStateChanged
+} from 'firebase/auth';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -43,6 +46,10 @@ export const useUserState = () => {
 };
 
 export const addSubmission = (submission, id) => {
+  const auth = getAuth();
+  const user = auth.currentUser.uid;
+  submission["author"] = user;
+
   // Get a key for a new Post.
   const newPostKey = push(child(ref(database), '/' + id + '/results/')).key;
 
@@ -55,20 +62,13 @@ export const addSubmission = (submission, id) => {
 }
 
 // reference: https://firebase.google.com/docs/database/web/read-and-write
-export const addForm = (elements) => {
-  const postData = {
-    "eventName": elements.eventName.value,
-    "date": elements.eventDateInput.value,
-    "description": elements.eventDescription.value,
-    "isCapacityLimit": elements.isThereCapacity.checked ? parseInt(elements.capacityLimit.value) : parseInt(-1),
-    "waitlist": elements.isThereCapacity.checked ? elements.isThereWaitlist.checked : false,
-    "needsEmail": elements.askEmail.checked,
-    "needsPhone": elements.askPhoneNum.checked,
-    "results": {}
-  };
+export const addForm = (postData) => {
+  const auth = getAuth();
+  const user = auth.currentUser.uid;
+  postData["author"] = user;
 
   // Get a key for a new Post.
-  const newPostKey = push(child(ref(database), 'posts')).key;
+  const newPostKey = push(child(ref(database), '/')).key;
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
@@ -101,6 +101,7 @@ export const useData = (path, transform) => {
 };
 
 export const formData = form => ({
+  "author": form.author,
   "eventName": form.eventName,
   "date": form.date,
   "description": form.description,

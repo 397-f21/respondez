@@ -39,10 +39,22 @@ export const createForm = (event) => {
     alert("Invalid event name: Must be under 50 characters.");
   }
   else {
-    const hashedKey = addForm(elements);
+    var postData = {
+      "eventName": elements.eventName.value,
+      "date": elements.eventDateInput.value,
+      "description": elements.eventDescription.value,
+      "isCapacityLimit": elements.isThereCapacity.checked ? parseInt(elements.capacityLimit.value) : parseInt(-1),
+      "waitlist": elements.isThereCapacity.checked ? elements.isThereWaitlist.checked : false,
+      "needsEmail": elements.askEmail.checked,
+      "needsPhone": elements.askPhoneNum.checked,
+      "results": {}
+    };
+    console.log(postData);
+
+    const hashedKey = addForm(postData);
     // console.log(getForm(hashedKey)); // printing purpose
     alert("Your form url: " + hashedKey);
-    window.location.assign(window.location.href.split("/create")[0]);
+    // window.location.assign(window.location.href.split("/create")[0]);
   }
 }
 

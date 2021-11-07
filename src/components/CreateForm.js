@@ -7,8 +7,6 @@ const CreateForm = () => {
   const [formMaker, setFormMaker] = useState(true);
   const [formContent, setFormContent] = useState(null);
 
-  const urlSearchParams = new URLSearchParams(window.location.search);
-  const params = Object.fromEntries(urlSearchParams.entries());
   return (
     <div>
       {formMaker  // params.id === null 

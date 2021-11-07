@@ -1,9 +1,8 @@
-import { NavLink } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import Modal from "react-bootstrap/Modal";
 
-import { useData, formData, allData } from './FirebaseHandle'
+import { useData, allData } from './FirebaseHandle'
 
 const Home = () => {
   const [show1, setShow1] = useState(false);
