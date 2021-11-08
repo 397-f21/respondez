@@ -5,7 +5,7 @@ import { getDatabase, ref, child, push, update, onValue } from "firebase/databas
 import { useState, useEffect } from 'react'; // trackable state
 import {
   getAuth, GoogleAuthProvider, onIdTokenChanged,
-  signInWithPopup, signOut
+  signInWithRedirect, signOut
 } from 'firebase/auth';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -29,7 +29,7 @@ const firebase = initializeApp(firebaseConfig);
 const database = getDatabase(firebase);
 
 export const signInWithGoogle = () => {
-  signInWithPopup(getAuth(firebase), new GoogleAuthProvider());
+  signInWithRedirect(getAuth(firebase), new GoogleAuthProvider());
 };
 
 const firebaseSignOut = () => signOut(getAuth(firebase));

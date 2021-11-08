@@ -61,15 +61,15 @@ const getCSV = (form) => {
   header[0] = "id";
   const csv_final = [header].concat(body);
   console.log(csv_final)
-  // let csvContent = "data:text/csv;charset=utf-8,"
-  //   + csv_final.map(e => e.join(",")).join("\n");
+  let csvContent = "data:text/csv;charset=utf-8,"
+    + csv_final.map(e => e.join(",")).join("\n");
 
-  // var encodedUri = encodeURI(csvContent);
-  // var link = document.createElement("a");
-  // link.setAttribute("href", encodedUri);
-  // link.setAttribute("download", "response.csv");
-  // document.body.appendChild(link); // Required for FF
-  // link.click(); // This will download the data file named "my_data.csv".
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "response.csv");
+  document.body.appendChild(link); // Required for FF
+  link.click(); // This will download the data file named "my_data.csv".
 }
 
 const Home = () => {
@@ -79,36 +79,41 @@ const Home = () => {
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
 
-  const [formObject, loading, error] = useData('/', allData);
+  const [allFormData, loading, error] = useData('/', allData);
   if (error) return <h2>{error}</h2>;
   if (loading) return <h2>Loading the form...</h2>
 
   let allForms = new Map();
-  for (let i in formObject) {
-    if (formObject[i].author == getUID(user)) {
-      let form = formObject[i]
+  for (let i in allFormData) {
+    if (allFormData[i].author == getUID(user)) {
+      let form = allFormData[i]
       if (form.isCapacityLimit == -1) { form.isCapacityLimit = "N/A"; }
-      if (form.waitlist == false) { form.waitlist = "N/A"; }
-      let resultCnt = 0;
-      for (let j in form.results) { resultCnt += 1; }
+
+      const resultCnt = form.results ? Object.values(form.results).length : 0;
+      console.log("form.waitlist:"+form.waitlist);
+      if (!form.waitlist || form.waitlist === "N/A") { form.waitlist = "N/A"; }
+      else {
+        form.waitlist = resultCnt - form.isCapacityLimit;
+      }
+
       form["rsvp"] = resultCnt;
       allForms.set(i, form);
     }
   }
 
   let allResponses = new Map();
-  for (let i in formObject) {
-    let form = formObject[i];
-    let formResult = formObject[i].results
+  for (let i in allFormData) {
+    let form = allFormData[i];
+    let formResult = allFormData[i].results
     let formCount = 0;
     for (let j in formResult) {
       formCount += 1;
       if (formResult[j].author == getUID(user)) { // get user's response
         let status = "Admitted"
-        if (formObject[i].isCapacityLimit != -1) { // there is a capacity limit
-          if (formCount > formObject[i].isCapacityLimit) { // over the capacity limit
-            if (formObject[i].waitlist == true) { // waitlist available
-              status = "Waitlisted (" + String(formCount - formObject[i].isCapacityLimit) + "/" + String(formObject[i].isCapacityLimit) + ")";
+        if (allFormData[i].isCapacityLimit != -1) { // there is a capacity limit
+          if (formCount > allFormData[i].isCapacityLimit) { // over the capacity limit
+            if (allFormData[i].waitlist == true) { // waitlist available
+              status = "Waitlisted (" + String(formCount - allFormData[i].isCapacityLimit) + "/" + String(allFormData[i].isCapacityLimit) + ")";
             } else { // no waitlist
               status = "Event Closed"
             }
@@ -145,9 +150,12 @@ const Home = () => {
         <div class="collapse show" id="formList">
           <ul className='list-group'>
             {Array.from(allForms).map(form =>
-              <li type="button" className="list-group-item list-group-item-light" key={form[0]} onClick={() => getCSV(form)}>
-                <i class="fas fa-file-download me-2"></i>
-                {form[1].eventName} (RSVP: {form[1].rsvp}, Waitlist: {form[1].waitlist}, Capacity: {form[1].isCapacityLimit})</li>)}
+              <li className="list-group-item list-group-item-light" key={form[0]}>
+                <i type="button" class="fas fa-file-download me-2" onClick={() => getCSV(form)}></i>
+                {form[1].eventName} (RSVP: {form[1].rsvp}, Waitlist: {form[1].waitlist}, Capacity: {form[1].isCapacityLimit})
+                {/*<a onClick={getUrl(?)}>Get Form URL</a>*/}
+                <p>URL: {window.location.href + 'form/?id=' + form[0]}</p>
+              </li>)}
             {/* ; key is {form[0]} */}
           </ul>
         </div>
