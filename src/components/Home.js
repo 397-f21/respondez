@@ -98,7 +98,7 @@ const Home = () => {
         if (allFormData[i].isCapacityLimit != -1) { // there is a capacity limit
           if (formCount > allFormData[i].isCapacityLimit) { // over the capacity limit
             if (allFormData[i].waitlist == true) { // waitlist available
-              status = "Waitlisted (" + String(formCount - allFormData[i].isCapacityLimit) + "/" + String(allFormData[i].isCapacityLimit) + ")";
+              status = "Waitlisted (Spot: " + String(formCount - allFormData[i].isCapacityLimit) + ")";
             } else { // no waitlist
               status = "Event Closed"
             }
