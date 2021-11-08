@@ -80,9 +80,13 @@ export const addForm = (postData) => {
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
   updates['/' + newPostKey] = postData;
-  update(ref(database), updates);
 
-  return newPostKey; // return the hashed value
+  update(ref(database), updates).then(function () {
+    alert("Your form url: " + newPostKey);
+    window.location.assign('/');
+  }).catch(function (error) {
+    alert("Data could not be saved." + error);
+  });
 }
 
 export const useData = (path, transform) => {
