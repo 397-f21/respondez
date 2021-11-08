@@ -8,8 +8,8 @@ let changeCapacityLimit = (e, setCapacityLimit) => setCapacityLimit(e.target.che
 const CapacityForm = () => (
   <>
     <div className="form-inline">
-      <div className="form-group mb-2">
-        <label htmlFor="capacityLimit"> Capacity Limit </label>
+      <div className="form-group mb-4">
+        <label htmlFor="capacityLimit" className="me-2"> Capacity Limit </label>
         <input className="form-control" id="capacityLimit" type="number" />
       </div>
     </div>
@@ -44,7 +44,7 @@ export const createForm = (event) => {
   }
   else if (elements.eventName.length > 50) {
     alert("Invalid event name: Must be under 50 characters.");
-  } 
+  }
   else if (elements.isThereCapacity.checked && elements.capacityLimit.value.length <= 0) {
     alert("Missing capacity!")
   }

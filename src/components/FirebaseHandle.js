@@ -93,7 +93,8 @@ export const addForm = (postData) => {
   updates['/' + newPostKey] = postData;
 
   update(ref(database), updates).then(function () {
-    alert("Your form url: " + newPostKey);
+    navigator.clipboard.writeText(newPostKey);
+    alert("Your form url (already copied to your clipboard): " + newPostKey);
     window.location.assign('/');
   }).catch(function (error) {
     alert("Data could not be saved." + error);
