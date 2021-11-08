@@ -6,32 +6,69 @@ import 'font-awesome/css/font-awesome.min.css';
 import { useData, allData, getUID, useUserState } from './FirebaseHandle'
 
 // reference: https://stackoverflow.com/a/14966131
-const getCSV = (json) => {
+const getCSV = (form) => {
   let header = []
   let body = []
-  let count = 0;
-  for (let i in json) {
-    let sub = json[i];
-    sub["author"] = count;
-    if (header.length == 0) { header = Object.keys(json[i]); }
-    let row = [];
-    for (let k in header) {
-      row.push(sub[header[k]]);
-    }
-    body.push(row);
-    count += 1;
-  }
-  header[0] = "id";
-  const csv_final = [header].concat(body);
-  let csvContent = "data:text/csv;charset=utf-8,"
-    + csv_final.map(e => e.join(",")).join("\n");
+  let count = 1;
 
-  var encodedUri = encodeURI(csvContent);
-  var link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "response.csv");
-  document.body.appendChild(link); // Required for FF
-  link.click(); // This will download the data file named "my_data.csv".
+  for (let i in form) {
+    let f = form[i]
+    console.log(form[i].isCapacityLimit)
+    let status = ""
+    if (form[i].isCapacityLimit == "N/A") { // there is capacity limit
+      if (count <= form[i].isCapacityLimit) { // user less than cap
+        status = "Admitted";
+      } else { // user greater than cap
+        if (form[i].waitlist) { // waitlist enabled
+          status = "Waitlisted"
+        } else { // failed to get in
+          status = "Closed"
+        }
+      }
+    } else { status = "Admitted"; }
+    console.log(status)
+  }
+
+  // for (let i in json) {
+  //   let sub = json[i];
+  //   sub["author"] = count;
+  //   let status = ""
+  //   if (header.length === 0) {
+  //     header = Object.keys(json[i]);
+  //     header.push("status")
+  //     console.log(form.isCapacityLimit);
+  //     if (json[i].isCapacityLimit != -1) { // there is capacity limit
+  //       if (count <= json[i].isCapacityLimit) { // user less than cap
+  //         status = "Admitted";
+  //       } else { // user greater than cap
+  //         if (json[i].waitlist) { // waitlist enabled
+  //           status = "Waitlisted"
+  //         } else { // failed to get in
+  //           status = "Closed"
+  //         }
+  //       }
+  //     } else { status = "Admitted"; }
+  //   }
+  //   sub["status"] = status;
+  //   let row = [];
+  //   for (let k in header) {
+  //     row.push(sub[header[k]]);
+  //   }
+  //   body.push(row);
+  //   count += 1;
+  // }
+  // header[0] = "id";
+  // const csv_final = [header].concat(body);
+  // console.log(csv_final)
+  // let csvContent = "data:text/csv;charset=utf-8,"
+  //   + csv_final.map(e => e.join(",")).join("\n");
+
+  // var encodedUri = encodeURI(csvContent);
+  // var link = document.createElement("a");
+  // link.setAttribute("href", encodedUri);
+  // link.setAttribute("download", "response.csv");
+  // document.body.appendChild(link); // Required for FF
+  // link.click(); // This will download the data file named "my_data.csv".
 }
 
 const Home = () => {
@@ -68,7 +105,7 @@ const Home = () => {
       if (formResult[j].author == getUID(user)) { // get user's response
         let status = "Admitted"
         if (formObject[i].isCapacityLimit != -1) { // there is a capacity limit
-          if (j > formObject[i].isCapacityLimit) { // over the capacity limit
+          if (formCount > formObject[i].isCapacityLimit) { // over the capacity limit
             if (formObject[i].waitlist == true) { // waitlist available
               status = "Waitlisted (" + String(formCount - formObject[i].isCapacityLimit) + "/" + String(formObject[i].isCapacityLimit) + ")";
             } else { // no waitlist
@@ -107,7 +144,7 @@ const Home = () => {
         <div class="collapse show" id="formList">
           <ul className='list-group'>
             {Array.from(allForms).map(form =>
-              <li type="button" className="list-group-item list-group-item-light" key={form[0]} onClick={() => getCSV(form[1].results)}>
+              <li type="button" className="list-group-item list-group-item-light" key={form[0]} onClick={() => getCSV(form)}>
                 <i class="fas fa-file-download me-2"></i>
                 {form[1].eventName} (RSVP: {form[1].rsvp}, Waitlist: {form[1].waitlist}, Capacity: {form[1].isCapacityLimit})</li>)}
             {/* ; key is {form[0]} */}
@@ -116,7 +153,7 @@ const Home = () => {
 
         <div class="card border-info mt-2" type="button" data-toggle="collapse" data-target="#responseList" aria-expanded="true">
           <div class="card-header" id="headingOne">
-            <h5 class="mb-0">Your Responses</h5>
+            <h5 class="mb-0">Responses You've Sent</h5>
           </div>
         </div>
         <div class="collapse show" id="responseList">
