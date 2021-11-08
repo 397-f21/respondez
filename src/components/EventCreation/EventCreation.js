@@ -22,9 +22,9 @@ const CapacityForm = () => (
 )
 
 const validateTime = (date) => {
-  var inputDate = new Date(date.split("-")[0], date.split("-")[1] - 1, date.split("-")[2] + 1);
+  var inputDate = new Date(parseInt(date.split("-")[0]), parseInt(date.split("-")[1]) - 1, parseInt(date.split("-")[2]) + 1);
   var todaydate = new Date();
-  console.log(inputDate, todaydate);
+  // console.log(inputDate, todaydate);
   return inputDate.getTime() >= todaydate.getTime();
 }
 
