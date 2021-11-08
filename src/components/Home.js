@@ -1,8 +1,38 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Modal from "react-bootstrap/Modal";
+import 'font-awesome/css/font-awesome.min.css';
 
 import { useData, allData, getUID, useUserState } from './FirebaseHandle'
+
+// reference: https://stackoverflow.com/a/14966131
+const getCSV = (json) => {
+  let header = []
+  let body = []
+  let count = 0;
+  for (let i in json) {
+    let sub = json[i];
+    sub["author"] = count;
+    if (header.length == 0) { header = Object.keys(json[i]); }
+    let row = [];
+    for (let k in header) {
+      row.push(sub[header[k]]);
+    }
+    body.push(row);
+    count += 1;
+  }
+  header[0] = "id";
+  const csv_final = [header].concat(body);
+  let csvContent = "data:text/csv;charset=utf-8,"
+    + csv_final.map(e => e.join(",")).join("\n");
+
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "response.csv");
+  document.body.appendChild(link); // Required for FF
+  link.click(); // This will download the data file named "my_data.csv".
+}
 
 const Home = () => {
   const [user] = useUserState();
@@ -77,7 +107,8 @@ const Home = () => {
         <div class="collapse show" id="formList">
           <ul className='list-group'>
             {Array.from(allForms).map(form =>
-              <li className="list-group-item list-group-item-light" key={form[0]}>
+              <li type="button" className="list-group-item list-group-item-light" key={form[0]} onClick={() => getCSV(form[1].results)}>
+                <i class="fas fa-file-download me-2"></i>
                 {form[1].eventName} (RSVP: {form[1].rsvp}, Waitlist: {form[1].waitlist}, Capacity: {form[1].isCapacityLimit})</li>)}
             {/* ; key is {form[0]} */}
           </ul>
