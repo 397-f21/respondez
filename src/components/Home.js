@@ -136,10 +136,16 @@ const Home = () => {
           <ul className='list-group'>
             {Array.from(allForms).map(form =>
               <li className="list-group-item list-group-item-light" key={form[0]}>
-                <i type="button" class="fas fa-file-download me-2" onClick={() => getCSV(form)}></i>
+                <i type="button" class="fas fa-file-download fa-lg me-2" title="Download CSV" data-toggle="tooltip"
+                  style={{ color: "#5cb85c" }} onClick={() => { getCSV(form); alert("Download Started...") }}></i>
                 {form[1].eventName} (RSVP: {form[1].rsvp}, Waitlist: {form[1].wait}, Capacity: {form[1].isCapacityLimit})
-                {/*<a onClick={getUrl(?)}>Get Form URL</a>*/}
-                <p>URL: {window.location.href + 'form/?id=' + form[0]}</p>
+                <br />
+                <i type="button" class="fas fa-link fa-lg me-2" title="Copy URL" data-toggle="tooltip" style={{ color: "#0275d8" }}
+                  onClick={() => {
+                    navigator.clipboard.writeText(window.location.href + 'form/?id=' + form[0]);
+                    alert("URL Copied to Clipboard")
+                  }}></i>
+                URL: {window.location.href + 'form/?id=' + form[0]}
               </li>)}
             {/* ; key is {form[0]} */}
           </ul>
@@ -154,7 +160,9 @@ const Home = () => {
           <ul className='list-group'>
             {Array.from(allResponses).map(form =>
               <li className="list-group-item list-group-item-light" key={form[0]}>
-                <i class="fas fa-times-circle me-2" type="button" onClick={() => deleteRSVP(getUID(user), form[0], form[1].results)}></i>
+                <i class="fas fa-times-circle fa-lg me-2" type="button" style={{ color: "red" }}
+                  title="Not Going" data-toggle="tooltip"
+                  onClick={() => { deleteRSVP(getUID(user), form[0], form[1].results); alert("No longer attendnig") }}></i>
                 {form[1].eventName} (Status: {form[1].status})</li>)}
             {/* ; key is {form[0]} */}
           </ul>
