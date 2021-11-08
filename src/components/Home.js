@@ -10,56 +10,57 @@ const getCSV = (form) => {
   let header = []
   let body = []
   let count = 1;
+  console.log(form);
 
-  for (let i in form) {
-    let f = form[i]
-    console.log(form[i].isCapacityLimit)
+  // for (let i in form[1]) {
+  //   let f = form[i]
+  //   console.log(form[i].isCapacityLimit)
+  //   let status = ""
+  //   if (form[i].isCapacityLimit !== "N/A") { // there is capacity limit
+  //     if (count <= form[i].isCapacityLimit) { // user less than cap
+  //       status = "Admitted";
+  //     } else { // user greater than cap
+  //       if (form[i].waitlist) { // waitlist enabled
+  //         status = "Waitlisted"
+  //       } else { // failed to get in
+  //         status = "Closed"
+  //       }
+  //     }
+  //   } else { status = "Admitted"; }
+  //   console.log(status)
+  let json = form[1].results
+  for (let i in json) {
+    let sub = json[i];
+    sub["author"] = count;
     let status = ""
-    if (form[i].isCapacityLimit == "N/A") { // there is capacity limit
-      if (count <= form[i].isCapacityLimit) { // user less than cap
+    if (header.length === 0) {
+      header = Object.keys(json[i]);
+      header.push("status")
+    }
+    if (form[1].isCapacityLimit !== -1) { // there is capacity limit
+      if (count <= form[1].isCapacityLimit) { // user less than cap
         status = "Admitted";
       } else { // user greater than cap
-        if (form[i].waitlist) { // waitlist enabled
-          status = "Waitlisted"
+        if (form[1].waitlist == true) { // waitlist enabled
+          status = "Waitlisted";
         } else { // failed to get in
-          status = "Closed"
+          status = "Closed";
         }
       }
     } else { status = "Admitted"; }
     console.log(status)
+    console.log(count)
+    sub["status"] = status;
+    let row = [];
+    for (let k in header) {
+      row.push(sub[header[k]]);
+    }
+    body.push(row);
+    count += 1;
   }
-
-  // for (let i in json) {
-  //   let sub = json[i];
-  //   sub["author"] = count;
-  //   let status = ""
-  //   if (header.length === 0) {
-  //     header = Object.keys(json[i]);
-  //     header.push("status")
-  //     console.log(form.isCapacityLimit);
-  //     if (json[i].isCapacityLimit != -1) { // there is capacity limit
-  //       if (count <= json[i].isCapacityLimit) { // user less than cap
-  //         status = "Admitted";
-  //       } else { // user greater than cap
-  //         if (json[i].waitlist) { // waitlist enabled
-  //           status = "Waitlisted"
-  //         } else { // failed to get in
-  //           status = "Closed"
-  //         }
-  //       }
-  //     } else { status = "Admitted"; }
-  //   }
-  //   sub["status"] = status;
-  //   let row = [];
-  //   for (let k in header) {
-  //     row.push(sub[header[k]]);
-  //   }
-  //   body.push(row);
-  //   count += 1;
-  // }
-  // header[0] = "id";
-  // const csv_final = [header].concat(body);
-  // console.log(csv_final)
+  header[0] = "id";
+  const csv_final = [header].concat(body);
+  console.log(csv_final)
   // let csvContent = "data:text/csv;charset=utf-8,"
   //   + csv_final.map(e => e.join(",")).join("\n");
 
