@@ -69,7 +69,7 @@ describe('createForm', () => {
     expect(mockAlert).toHaveBeenCalledWith("Invalid event name: Must be under 50 characters.");
   });
 
-  it("won't submit the form is capacity is zero or negative", () => {
+  it("won't submit the form if capacity is zero or negative", () => {
     let elements = {};
     elements.isThereCapacity = { 'checked' : true };
     elements.capacityLimit = { "value" : "-500" };
@@ -80,5 +80,18 @@ describe('createForm', () => {
 
     expect(mockAlert).toHaveBeenCalledTimes(1);
     expect(mockAlert).toHaveBeenCalledWith("Invalid event capacity: Capacity should be positive.");
+  });
+
+  it("won't submit the form if capacity is empty", () => {
+    let elements = {};
+    elements.isThereCapacity = { 'checked' : true };
+    elements.capacityLimit = { "value" : "" };
+
+    const mockAlert = jest.spyOn(window, 'alert');
+    mockAlert.mockImplementation(() => {});
+    createForm({ "target" : { "elements" : elements }, "preventDefault" : () => null});
+
+    expect(mockAlert).toHaveBeenCalledTimes(1);
+    expect(mockAlert).toHaveBeenCalledWith("Missing capacity!");
   });
 });
