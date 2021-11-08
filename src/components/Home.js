@@ -2,32 +2,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import 'font-awesome/css/font-awesome.min.css';
-
-import { useData, allData, getUID, useUserState } from './FirebaseHandle'
+import { useData, allData, getUID, useUserState, deleteRSVP } from './FirebaseHandle'
 
 // reference: https://stackoverflow.com/a/14966131
 const getCSV = (form) => {
   let header = []
   let body = []
   let count = 1;
-  console.log(form);
-
-  // for (let i in form[1]) {
-  //   let f = form[i]
-  //   console.log(form[i].isCapacityLimit)
-  //   let status = ""
-  //   if (form[i].isCapacityLimit !== "N/A") { // there is capacity limit
-  //     if (count <= form[i].isCapacityLimit) { // user less than cap
-  //       status = "Admitted";
-  //     } else { // user greater than cap
-  //       if (form[i].waitlist) { // waitlist enabled
-  //         status = "Waitlisted"
-  //       } else { // failed to get in
-  //         status = "Closed"
-  //       }
-  //     }
-  //   } else { status = "Admitted"; }
-  //   console.log(status)
   let json = form[1].results
   for (let i in json) {
     let sub = json[i];
@@ -48,8 +29,6 @@ const getCSV = (form) => {
         }
       }
     } else { status = "Admitted"; }
-    console.log(status)
-    console.log(count)
     sub["status"] = status;
     let row = [];
     for (let k in header) {
@@ -60,7 +39,6 @@ const getCSV = (form) => {
   }
   header[0] = "id";
   const csv_final = [header].concat(body);
-  console.log(csv_final)
   let csvContent = "data:text/csv;charset=utf-8,"
     + csv_final.map(e => e.join(",")).join("\n");
 
@@ -79,6 +57,10 @@ const Home = () => {
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
 
+  const [show2, setShow2] = useState(false);
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
+
   const [allFormData, loading, error] = useData('/', allData);
   if (error) return <h2>{error}</h2>;
   if (loading) return <h2>Loading the form...</h2>
@@ -90,7 +72,7 @@ const Home = () => {
       if (form.isCapacityLimit == -1) { form.isCapacityLimit = "N/A"; }
 
       const resultCnt = form.results ? Object.values(form.results).length : 0;
-      console.log("form.waitlist:" + form.waitlist);
+      // console.log("form.waitlist:" + form.waitlist);
       if (form.waitlist == false || form.waitlist === "N/A") { form['wait'] = "N/A"; }
       else {
         if (resultCnt > form.isCapacityLimit) {
@@ -172,6 +154,7 @@ const Home = () => {
           <ul className='list-group'>
             {Array.from(allResponses).map(form =>
               <li className="list-group-item list-group-item-light" key={form[0]}>
+                <i class="fas fa-times-circle me-2" type="button" onClick={() => deleteRSVP(getUID(user), form[0], form[1].results)}></i>
                 {form[1].eventName} (Status: {form[1].status})</li>)}
             {/* ; key is {form[0]} */}
           </ul>
@@ -197,6 +180,22 @@ const Home = () => {
           </Modal.Footer>
         </form>
       </Modal>
+
+      <Modal show={show2} onHide={handleClose2}>
+        <Modal.Header>
+          <Modal.Title>No longer interested?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Mark not going if you are no longer interested in this event.
+        </Modal.Body>
+        <Modal.Footer>
+          <button type="button" className="btn btn-secondary" onClick={handleClose2}>
+            Cancel
+          </button>
+          <button className="btn btn-primary" type='submit'>Not Going</button>
+        </Modal.Footer>
+      </Modal>
+
     </div >
   );
 }
