@@ -90,12 +90,15 @@ const Home = () => {
       if (form.isCapacityLimit == -1) { form.isCapacityLimit = "N/A"; }
 
       const resultCnt = form.results ? Object.values(form.results).length : 0;
-      console.log("form.waitlist:"+form.waitlist);
-      if (!form.waitlist || form.waitlist === "N/A") { form.waitlist = "N/A"; }
+      console.log("form.waitlist:" + form.waitlist);
+      if (form.waitlist == false || form.waitlist === "N/A") { form['wait'] = "N/A"; }
       else {
-        form.waitlist = resultCnt - form.isCapacityLimit;
+        if (resultCnt > form.isCapacityLimit) {
+          form['wait'] = resultCnt - form.isCapacityLimit;
+        } else {
+          form['wait'] = 0;
+        }
       }
-
       form["rsvp"] = resultCnt;
       allForms.set(i, form);
     }
@@ -152,7 +155,7 @@ const Home = () => {
             {Array.from(allForms).map(form =>
               <li className="list-group-item list-group-item-light" key={form[0]}>
                 <i type="button" class="fas fa-file-download me-2" onClick={() => getCSV(form)}></i>
-                {form[1].eventName} (RSVP: {form[1].rsvp}, Waitlist: {form[1].waitlist}, Capacity: {form[1].isCapacityLimit})
+                {form[1].eventName} (RSVP: {form[1].rsvp}, Waitlist: {form[1].wait}, Capacity: {form[1].isCapacityLimit})
                 {/*<a onClick={getUrl(?)}>Get Form URL</a>*/}
                 <p>URL: {window.location.href + 'form/?id=' + form[0]}</p>
               </li>)}
