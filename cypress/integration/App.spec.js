@@ -14,3 +14,15 @@ describe('Test App', () => {
         cy.get('[data-cy=waitlistDivCy]').should('be.visible');
     });
 });
+
+describe('newtest', () => {
+  it('prevents user from create event and fill response before loggin in', () => {
+      cy.visit('/');
+      cy.get('[data-cy=menuButtonCy]').click();
+      cy.get('[data-cy=navigationCy]').should('contain', 'Sign In');
+      cy.get('[data-cy=navigationCy]').should('contain', 'Create Form');
+      cy.get('[data-cy=navigationCy]').should('contain', 'Fill Response');
+      cy.get('[data-cy=createFormCy]').click();
+      cy.get('[data-cy=loginModalCy]').should('contain', 'Sign In');
+  });
+});

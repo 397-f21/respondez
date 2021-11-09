@@ -46,17 +46,17 @@ const App = () => {
   return (
     <>
       <div id="main">
-        <Navbar collapseOnSelect expand="false" bg="dark" variant="dark">
+        <Navbar data-cy='navigationCy' collapseOnSelect expand="false" bg="dark" variant="dark">
           <Navbar.Brand id="navTitle">
             {/* <i id="navLogo" class="fa fa-heart"></i> */}
             <a href='/'>RespondEZ</a>
           </Navbar.Brand>
-          <Navbar.Toggle id="hamburger" aria-controls="responsive-navbar-nav" />
+          <Navbar.Toggle data-cy='menuButtonCy' id="hamburger" aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
               {user ? <SignOutButton /> : <SignInButton />}
               {user ? <a class="nav-link" href={createLink()}>Create Form</a> :
-                <Nav.Link onClick={handleShow2}>Create Form</Nav.Link>}
+                <Nav.Link data-cy='createFormCy' onClick={handleShow2}>Create Form</Nav.Link>}
               {user ? <Nav.Link onClick={handleShow1}>Fill Response</Nav.Link> :
                 <Nav.Link onClick={handleShow2}>Fill Response</Nav.Link>}
             </Nav>
@@ -94,7 +94,7 @@ const App = () => {
         </form>
       </Modal>
 
-      <Modal show={show2} onHide={handleClose2}>
+      <Modal data-cy="loginModalCy" show={show2} onHide={handleClose2}>
         <Modal.Header>
           <Modal.Title>Sign In</Modal.Title>
         </Modal.Header>
