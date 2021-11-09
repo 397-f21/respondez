@@ -94,4 +94,17 @@ describe('createForm', () => {
     expect(mockAlert).toHaveBeenCalledTimes(1);
     expect(mockAlert).toHaveBeenCalledWith("Missing capacity!");
   });
+
+  it("won't create form if the name field is empty", () => {
+    let elements = {};
+    elements.eventName = "";
+    elements.eventDateInput = {"value": new Date('February 4, 2022')};
+
+    const mockAlert = jest.spyOn(window, 'alert');
+    mockAlert.mockImplementation(() => {});
+    createForm({"target": {"elements": elements}, "preventDefault": () => null});
+
+    expect(mockAlert).toHaveBeenCalledTimes(1);
+    expect(mockAlert).toHaveBeenCalledWith("Missing event name!");
+  });
 });
