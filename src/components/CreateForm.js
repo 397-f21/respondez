@@ -5,6 +5,7 @@ import { DisplayEventCreator } from './EventCreation/EventCreation';
 const CreateForm = () => {
   const [capacityLimit, setCapacityLimit] = useState(false);
   const [formMaker, setFormMaker] = useState(true);
+  // eslint-disable-next-line
   const [formContent, setFormContent] = useState(null);
 
   return (

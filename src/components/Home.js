@@ -55,11 +55,11 @@ const Home = () => {
 
   const [show1, setShow1] = useState(false);
   const handleClose1 = () => setShow1(false);
-  const handleShow1 = () => setShow1(true);
+  //const handleShow1 = () => setShow1(true);
 
   const [show2, setShow2] = useState(false);
   const handleClose2 = () => setShow2(false);
-  const handleShow2 = () => setShow2(true);
+  //const handleShow2 = () => setShow2(true);
 
   const [allFormData, loading, error] = useData('/', allData);
   if (error) return <h2>{error}</h2>;
@@ -95,7 +95,7 @@ const Home = () => {
       formCount += 1;
       if (formResult[j].author === getUID(user)) { // get user's response
         let status = "Admitted"
-        if (allFormData[i].isCapacityLimit != -1) { // there is a capacity limit
+        if (allFormData[i].isCapacityLimit !== -1) { // there is a capacity limit
           if (formCount > allFormData[i].isCapacityLimit) { // over the capacity limit
             if (allFormData[i].waitlist) { // waitlist available
               status = "Waitlisted (Spot: " + String(formCount - allFormData[i].isCapacityLimit) + ")";

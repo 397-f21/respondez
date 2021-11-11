@@ -36,7 +36,7 @@ const firebaseSignOut = () => signOut(getAuth(firebase));
 export { firebaseSignOut as signOut };
 
 export const getUID = (user) => {
-  if (user == null) { return "" }
+  if (!user) { return "" }
   const auth = getAuth();
   const userID = auth.currentUser.uid;
   return userID;
@@ -55,7 +55,7 @@ export const useUserState = () => {
 export const deleteRSVP = (user, formID, responses) => {
   let responseKey = ""
   for (let r in responses) {
-    if (responses[r].author == getUID(user)) {
+    if (responses[r].author === getUID(user)) {
       responseKey = r;
       break;
     }

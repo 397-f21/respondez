@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { addForm } from '../FirebaseHandle'
 
 // TODO: find the bug and fix it. maybe even set up a test.......
-let changeCapacityLimit = (e, setCapacityLimit) => setCapacityLimit(e.target.checked);
+//let changeCapacityLimit = (e, setCapacityLimit) => setCapacityLimit(e.target.checked);
 
 const CapacityForm = () => (
   <>

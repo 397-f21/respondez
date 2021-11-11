@@ -25,10 +25,10 @@ const FormDisplay = () => {
 
     // remove false fields
     // reference: https://stackoverflow.com/a/24770914
-    if (formObject.needsEmail == false) {
+    if (!formObject.needsEmail) {
       delete submission["rsvpEmail"];
     }
-    if (formObject.needsPhone == false) {
+    if (!formObject.needsPhone) {
       delete submission["rsvpPhone"];
     }
 

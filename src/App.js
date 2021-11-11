@@ -20,7 +20,7 @@ const App = () => {
 
   const createLink = () => {
     let current = window.location.href
-    if (current.slice(-1) == '/') {
+    if (current.slice(-1) === '/') {
       return window.location.href + 'create';
     } else {
       return window.location.href + '/create'
