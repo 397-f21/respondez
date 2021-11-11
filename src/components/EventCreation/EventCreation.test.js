@@ -53,7 +53,7 @@ describe('createForm', () => {
     createForm({"target": {"elements": elements}, "preventDefault": () => null});
 
     expect(mockAlert).toHaveBeenCalledTimes(1);
-    expect(mockAlert).toHaveBeenCalledWith("Invalid Event Date: Event must take place today or later.");
+    expect(mockAlert).toHaveBeenCalledWith("Invalid event date: Event must take place today or later.");
   });
 
   it("won't submit the form if name too long", () => {
@@ -67,5 +67,44 @@ describe('createForm', () => {
 
     expect(mockAlert).toHaveBeenCalledTimes(1);
     expect(mockAlert).toHaveBeenCalledWith("Invalid event name: Must be under 50 characters.");
+  });
+
+  it("won't submit the form if capacity is zero or negative", () => {
+    let elements = {};
+    elements.isThereCapacity = { 'checked' : true };
+    elements.capacityLimit = { "value" : "-500" };
+
+    const mockAlert = jest.spyOn(window, 'alert');
+    mockAlert.mockImplementation(() => {});
+    createForm({ "target" : { "elements" : elements }, "preventDefault" : () => null});
+
+    expect(mockAlert).toHaveBeenCalledTimes(1);
+    expect(mockAlert).toHaveBeenCalledWith("Invalid event capacity: Capacity should be positive.");
+  });
+
+  it("won't submit the form if capacity is empty", () => {
+    let elements = {};
+    elements.isThereCapacity = { 'checked' : true };
+    elements.capacityLimit = { "value" : "" };
+
+    const mockAlert = jest.spyOn(window, 'alert');
+    mockAlert.mockImplementation(() => {});
+    createForm({ "target" : { "elements" : elements }, "preventDefault" : () => null});
+
+    expect(mockAlert).toHaveBeenCalledTimes(1);
+    expect(mockAlert).toHaveBeenCalledWith("Missing capacity!");
+  });
+
+  it("won't create form if the name field is empty", () => {
+    let elements = {};
+    elements.eventName = "";
+    elements.eventDateInput = {"value": new Date('February 4, 2022')};
+
+    const mockAlert = jest.spyOn(window, 'alert');
+    mockAlert.mockImplementation(() => {});
+    createForm({"target": {"elements": elements}, "preventDefault": () => null});
+
+    expect(mockAlert).toHaveBeenCalledTimes(1);
+    expect(mockAlert).toHaveBeenCalledWith("Missing event name!");
   });
 });

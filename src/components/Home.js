@@ -2,32 +2,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import 'font-awesome/css/font-awesome.min.css';
-
-import { useData, allData, getUID, useUserState } from './FirebaseHandle'
+import { useData, allData, getUID, useUserState, deleteRSVP } from './FirebaseHandle'
 
 // reference: https://stackoverflow.com/a/14966131
 const getCSV = (form) => {
   let header = []
   let body = []
   let count = 1;
-  console.log(form);
-
-  // for (let i in form[1]) {
-  //   let f = form[i]
-  //   console.log(form[i].isCapacityLimit)
-  //   let status = ""
-  //   if (form[i].isCapacityLimit !== "N/A") { // there is capacity limit
-  //     if (count <= form[i].isCapacityLimit) { // user less than cap
-  //       status = "Admitted";
-  //     } else { // user greater than cap
-  //       if (form[i].waitlist) { // waitlist enabled
-  //         status = "Waitlisted"
-  //       } else { // failed to get in
-  //         status = "Closed"
-  //       }
-  //     }
-  //   } else { status = "Admitted"; }
-  //   console.log(status)
   let json = form[1].results
   for (let i in json) {
     let sub = json[i];
@@ -48,8 +29,6 @@ const getCSV = (form) => {
         }
       }
     } else { status = "Admitted"; }
-    console.log(status)
-    console.log(count)
     sub["status"] = status;
     let row = [];
     for (let k in header) {
@@ -60,7 +39,6 @@ const getCSV = (form) => {
   }
   header[0] = "id";
   const csv_final = [header].concat(body);
-  console.log(csv_final)
   let csvContent = "data:text/csv;charset=utf-8,"
     + csv_final.map(e => e.join(",")).join("\n");
 
@@ -79,6 +57,10 @@ const Home = () => {
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
 
+  const [show2, setShow2] = useState(false);
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
+
   const [allFormData, loading, error] = useData('/', allData);
   if (error) return <h2>{error}</h2>;
   if (loading) return <h2>Loading the form...</h2>
@@ -90,12 +72,15 @@ const Home = () => {
       if (form.isCapacityLimit == -1) { form.isCapacityLimit = "N/A"; }
 
       const resultCnt = form.results ? Object.values(form.results).length : 0;
-      console.log("form.waitlist:"+form.waitlist);
-      if (!form.waitlist || form.waitlist === "N/A") { form.waitlist = "N/A"; }
+      // console.log("form.waitlist:" + form.waitlist);
+      if (form.waitlist == false || form.waitlist === "N/A") { form['wait'] = "N/A"; }
       else {
-        form.waitlist = resultCnt - form.isCapacityLimit;
+        if (resultCnt > form.isCapacityLimit) {
+          form['wait'] = resultCnt - form.isCapacityLimit;
+        } else {
+          form['wait'] = 0;
+        }
       }
-
       form["rsvp"] = resultCnt;
       allForms.set(i, form);
     }
@@ -113,7 +98,7 @@ const Home = () => {
         if (allFormData[i].isCapacityLimit != -1) { // there is a capacity limit
           if (formCount > allFormData[i].isCapacityLimit) { // over the capacity limit
             if (allFormData[i].waitlist == true) { // waitlist available
-              status = "Waitlisted (" + String(formCount - allFormData[i].isCapacityLimit) + "/" + String(allFormData[i].isCapacityLimit) + ")";
+              status = "Waitlisted (Spot: " + String(formCount - allFormData[i].isCapacityLimit) + ")";
             } else { // no waitlist
               status = "Event Closed"
             }
@@ -151,10 +136,16 @@ const Home = () => {
           <ul className='list-group'>
             {Array.from(allForms).map(form =>
               <li className="list-group-item list-group-item-light" key={form[0]}>
-                <i type="button" class="fas fa-file-download me-2" onClick={() => getCSV(form)}></i>
-                {form[1].eventName} (RSVP: {form[1].rsvp}, Waitlist: {form[1].waitlist}, Capacity: {form[1].isCapacityLimit})
-                {/*<a onClick={getUrl(?)}>Get Form URL</a>*/}
-                <p>URL: {window.location.href + 'form/?id=' + form[0]}</p>
+                <i type="button" class="fas fa-file-download fa-lg me-2" title="Download CSV" data-toggle="tooltip"
+                  style={{ color: "#5cb85c" }} onClick={() => { getCSV(form); alert("Download Started...") }}></i>
+                {form[1].eventName} (RSVP: {form[1].rsvp}, Waitlist: {form[1].wait}, Capacity: {form[1].isCapacityLimit})
+                <br />
+                <i type="button" class="fas fa-link fa-lg me-2" title="Copy URL" data-toggle="tooltip" style={{ color: "#0275d8" }}
+                  onClick={() => {
+                    navigator.clipboard.writeText(window.location.href + 'form/?id=' + form[0]);
+                    alert("URL Copied to Clipboard")
+                  }}></i>
+                URL: {window.location.href + 'form/?id=' + form[0]}
               </li>)}
             {/* ; key is {form[0]} */}
           </ul>
@@ -169,6 +160,9 @@ const Home = () => {
           <ul className='list-group'>
             {Array.from(allResponses).map(form =>
               <li className="list-group-item list-group-item-light" key={form[0]}>
+                <i class="fas fa-times-circle fa-lg me-2" type="button" style={{ color: "red" }}
+                  title="Not Going" data-toggle="tooltip"
+                  onClick={() => { deleteRSVP(getUID(user), form[0], form[1].results); alert("No longer attendnig") }}></i>
                 {form[1].eventName} (Status: {form[1].status})</li>)}
             {/* ; key is {form[0]} */}
           </ul>
@@ -194,6 +188,22 @@ const Home = () => {
           </Modal.Footer>
         </form>
       </Modal>
+
+      <Modal show={show2} onHide={handleClose2}>
+        <Modal.Header>
+          <Modal.Title>No longer interested?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Mark not going if you are no longer interested in this event.
+        </Modal.Body>
+        <Modal.Footer>
+          <button type="button" className="btn btn-secondary" onClick={handleClose2}>
+            Cancel
+          </button>
+          <button className="btn btn-primary" type='submit'>Not Going</button>
+        </Modal.Footer>
+      </Modal>
+
     </div >
   );
 }

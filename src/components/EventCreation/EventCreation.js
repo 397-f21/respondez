@@ -8,8 +8,8 @@ let changeCapacityLimit = (e, setCapacityLimit) => setCapacityLimit(e.target.che
 const CapacityForm = () => (
   <>
     <div className="form-inline">
-      <div className="form-group mb-2">
-        <label htmlFor="capacityLimit"> Capacity Limit </label>
+      <div className="form-group mb-4">
+        <label htmlFor="capacityLimit" className="me-2"> Capacity Limit </label>
         <input className="form-control" id="capacityLimit" type="number" />
       </div>
     </div>
@@ -22,21 +22,34 @@ const CapacityForm = () => (
 )
 
 const validateTime = (date) => {
-  var inputDate = new Date(date);
+  var inputDate = new Date(parseInt(date.split("-")[0]), parseInt(date.split("-")[1]) - 1, parseInt(date.split("-")[2]) + 1);
   var todaydate = new Date();
-  console.log(inputDate, todaydate);
+  // console.log(inputDate, todaydate);
   return inputDate.getTime() >= todaydate.getTime();
 }
+
+const validateCapacity = (isThereCapacity, capacityLimit) => (
+  isThereCapacity ? capacityLimit > 0 : true
+);
 
 export const createForm = (event) => {
   event.preventDefault();
   const elements = event.target.elements;
 
   if (!validateTime(elements.eventDateInput.value)) {
-    alert("Invalid Event Date: Event must take place today or later.");
+    alert("Invalid event date: Event must take place today or later.");
+  }
+  else if (elements.eventName.length <= 0) {
+    alert("Missing event name!")
   }
   else if (elements.eventName.length > 50) {
     alert("Invalid event name: Must be under 50 characters.");
+  }
+  else if (elements.isThereCapacity.checked && elements.capacityLimit.value.length <= 0) {
+    alert("Missing capacity!")
+  }
+  else if (!validateCapacity(elements.isThereCapacity.checked, parseInt(elements.capacityLimit.value))) {
+    alert("Invalid event capacity: Capacity should be positive.")
   }
   else {
     var postData = {
@@ -49,12 +62,8 @@ export const createForm = (event) => {
       "needsPhone": elements.askPhoneNum.checked,
       "results": {}
     };
-    console.log(postData);
 
-    const hashedKey = addForm(postData);
-    // console.log(getForm(hashedKey)); // printing purpose
-    alert("Your form url: " + hashedKey);
-    // window.location.assign(window.location.href.split("/create")[0]);
+    addForm(postData);
   }
 }
 

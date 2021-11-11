@@ -1,11 +1,11 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 //import { getAnalytics } from "firebase/analytics";
-import { getDatabase, ref, child, push, update, onValue } from "firebase/database";
+import { getDatabase, ref, child, push, update, onValue, remove } from "firebase/database";
 import { useState, useEffect } from 'react'; // trackable state
 import {
   getAuth, GoogleAuthProvider, onIdTokenChanged,
-  signInWithRedirect, signOut
+  signInWithRedirect, signOut,
 } from 'firebase/auth';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -52,6 +52,17 @@ export const useUserState = () => {
   return [user];
 };
 
+export const deleteRSVP = (user, formID, responses) => {
+  let responseKey = ""
+  for (let r in responses) {
+    if (responses[r].author == getUID(user)) {
+      responseKey = r;
+      break;
+    }
+  }
+  remove(child(ref(database), '/' + formID + '/results/' + responseKey));
+}
+
 export const addSubmission = (submission, id) => {
   const auth = getAuth();
   const user = auth.currentUser.uid;
@@ -80,9 +91,14 @@ export const addForm = (postData) => {
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
   updates['/' + newPostKey] = postData;
-  update(ref(database), updates);
 
-  return newPostKey; // return the hashed value
+  update(ref(database), updates).then(function () {
+    navigator.clipboard.writeText(newPostKey);
+    alert("Your form url (already copied to your clipboard): " + newPostKey);
+    window.location.assign('/');
+  }).catch(function (error) {
+    alert("Data could not be saved." + error);
+  });
 }
 
 export const useData = (path, transform) => {
