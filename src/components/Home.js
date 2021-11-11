@@ -22,7 +22,7 @@ const getCSV = (form) => {
       if (count <= form[1].isCapacityLimit) { // user less than cap
         status = "Admitted";
       } else { // user greater than cap
-        if (form[1].waitlist == true) { // waitlist enabled
+        if (form[1].waitlist) { // waitlist enabled
           status = "Waitlisted";
         } else { // failed to get in
           status = "Closed";
@@ -67,13 +67,13 @@ const Home = () => {
 
   let allForms = new Map();
   for (let i in allFormData) {
-    if (allFormData[i].author == getUID(user)) {
+    if (allFormData[i].author === getUID(user)) {
       let form = allFormData[i]
-      if (form.isCapacityLimit == -1) { form.isCapacityLimit = "N/A"; }
+      if (form.isCapacityLimit === -1) { form.isCapacityLimit = "N/A"; }
 
       const resultCnt = form.results ? Object.values(form.results).length : 0;
       // console.log("form.waitlist:" + form.waitlist);
-      if (form.waitlist == false || form.waitlist === "N/A") { form['wait'] = "N/A"; }
+      if (!form.waitlist || form.waitlist === "N/A") { form['wait'] = "N/A"; }
       else {
         if (resultCnt > form.isCapacityLimit) {
           form['wait'] = resultCnt - form.isCapacityLimit;
@@ -93,11 +93,11 @@ const Home = () => {
     let formCount = 0;
     for (let j in formResult) {
       formCount += 1;
-      if (formResult[j].author == getUID(user)) { // get user's response
+      if (formResult[j].author === getUID(user)) { // get user's response
         let status = "Admitted"
         if (allFormData[i].isCapacityLimit != -1) { // there is a capacity limit
           if (formCount > allFormData[i].isCapacityLimit) { // over the capacity limit
-            if (allFormData[i].waitlist == true) { // waitlist available
+            if (allFormData[i].waitlist) { // waitlist available
               status = "Waitlisted (Spot: " + String(formCount - allFormData[i].isCapacityLimit) + ")";
             } else { // no waitlist
               status = "Event Closed"
