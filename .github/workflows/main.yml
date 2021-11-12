@@ -40,6 +40,6 @@ jobs:
         with:
           expo-version: 4.x
       - run: npm install
-      - run: expo build:web
+      - run: npm run build
       - run: npm install -g firebase-tools
       - run: firebase deploy --token "${{ secrets.FIREBASE_DEPLOY_TOKEN }}" --non-interactive
