@@ -27,4 +27,4 @@ Follow the steps to deploy the web app on firebase:
 $ npm run build
 $ firebase deploy
 ```
-ghjrfklsdasfnbsdog;afidlthregfad
+ghjrfklsdasfnbsdog;afidlth
