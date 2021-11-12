@@ -27,7 +27,7 @@ jobs:
           wait-on: http://localhost:3000
   deploy:
     name: Firebase deploy
-    needs: [build]
+    needs: [build, cypress]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
