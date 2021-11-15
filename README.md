@@ -27,4 +27,5 @@ Follow the steps to deploy the web app on firebase:
 $ npm run build
 $ firebase deploy
 ```
-ghjrfklsdasfnbsdog;afidlth
+
+Trello Board: https://trello.com/b/Ajq4JBH6/respondez-sprint-0
